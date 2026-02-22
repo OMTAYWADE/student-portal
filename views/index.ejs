@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Campus Assistant | Student Portal</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:#f1f5f9;
+    color:#0f172a;
+}
+
+/* NAVBAR */
+.navbar{
+    background:white;
+    padding:18px 50px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 4px 20px rgba(0,0,0,0.04);
+}
+
+.logo{
+    font-weight:800;
+    font-size:20px;
+    color:#1e3a8a;
+}
+
+.nav-links a{
+    text-decoration:none;
+    margin-left:25px;
+    font-size:14px;
+    font-weight:500;
+    color:#334155;
+    transition:0.2s;
+}
+
+.nav-links a:hover{
+    color:#2563eb;
+}
+
+/* HERO */
+.hero{
+    padding:90px 30px;
+    text-align:center;
+    background:radial-gradient(circle at top left,#2563eb,#1e40af 60%,#1e3a8a);
+    color:white;
+}
+
+.hero h1{
+    font-size:44px;
+    font-weight:800;
+    margin-bottom:18px;
+    line-height:1.2;
+}
+
+.hero p{
+    max-width:700px;
+    margin:auto;
+    font-size:17px;
+    opacity:0.9;
+}
+
+.hero-btn{
+    margin-top:35px;
+    padding:14px 32px;
+    border:none;
+    border-radius:10px;
+    font-size:15px;
+    font-weight:600;
+    cursor:pointer;
+    background:white;
+    color:#1e3a8a;
+    transition:0.3s;
+}
+
+.hero-btn:hover{
+    transform:translateY(-3px);
+}
+
+/* SECTION */
+.section{
+    max-width:1200px;
+    margin:80px auto;
+    padding:0 30px;
+}
+
+.section h2{
+    font-size:26px;
+    margin-bottom:30px;
+}
+
+/* IMPORTANT UPDATES */
+.updates-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+    gap:25px;
+}
+
+.update-card{
+    background:white;
+    padding:25px;
+    border-radius:16px;
+    box-shadow:0 15px 35px rgba(0,0,0,0.05);
+    transition:0.3s;
+    border-left:6px solid #f97316;
+}
+
+.update-card:hover{
+    transform:translateY(-6px);
+}
+
+.update-card h3{
+    font-size:15px;
+    margin-bottom:8px;
+}
+
+.update-card p{
+    font-size:13px;
+    color:#64748b;
+}
+
+/* FEATURES */
+.grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+    gap:30px;
+}
+
+.feature-card{
+    background:white;
+    padding:30px;
+    border-radius:18px;
+    box-shadow:0 20px 40px rgba(0,0,0,0.05);
+    transition:0.3s;
+}
+
+.feature-card:hover{
+    transform:translateY(-8px);
+}
+
+.feature-card h3{
+    font-size:17px;
+    margin-bottom:10px;
+}
+
+.feature-card p{
+    font-size:14px;
+    color:#64748b;
+}
+
+/* FOOTER */
+footer{
+    background:#0f172a;
+    color:white;
+    padding:35px;
+    text-align:center;
+    font-size:14px;
+    margin-top:80px;
+}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+    .navbar{
+        padding:15px 20px;
+    }
+    .hero h1{
+        font-size:30px;
+    }
+    .hero{
+        padding:70px 20px;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <div class="logo">🎓 Campus Assistant</div>
+    <div class="nav-links">
+        <a href="/">Home</a>
+        <a href="/busform">Bus Consession</a>
+
+        <% if(!user){ %>
+            <a href="/auth/google">Login</a>
+        <% } else { %>
+            <a href="/dashboard">Dashboard</a>
+            <a href="/logout">Logout</a>
+        <% } %>
+    </div>
+</div>
+
+<!-- HERO -->
+<div class="hero">
+    <h1>Smart Digital Campus Portal</h1>
+    <p>
+        A unified academic platform designed to help students track assignments,
+        manage transport services, and stay updated with real-time classroom activity.
+    </p>
+
+    <% if(!user){ %>
+        <a href="/auth/google">
+            <button class="hero-btn">Connect Google Classroom</button>
+            </a>
+    <% } else { %>
+        <a href="/dashboard">
+            <button class="hero-btn">Go to Dashboard</button>
+        </a>
+    <% } %>
+</div>
+
+<!-- IMPORTANT UPDATES -->
+<div class="section">
+    <h2>📢 Important Updates</h2>
+
+    <div class="updates-grid">
+        <div class="update-card">
+            <h3>Mid-Sem Exam Schedule Released</h3>
+            <p>Check your dashboard for subject-wise timetable details.</p>
+        </div>
+
+        <div class="update-card">
+            <h3>Scholarship Deadline Extended</h3>
+            <p>Students can now apply until the end of this month.</p>
+        </div>
+
+        <div class="update-card">
+            <h3>Bus Concession Form Available</h3>
+            <p>Transport forms are now accessible from the portal.</p>
+        </div>
+    </div>
+</div>
+
+<!-- FEATURES -->
+<div class="section">
+    <h2>🚀 Portal Features</h2>
+
+    <div class="grid">
+        <div class="feature-card">
+            <h3>📊 Academic Dashboard</h3>
+            <p>Track assignments, deadlines, submission status and classroom activity.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>🚌 Bus Consession</h3>
+            <p>Apply and securely download official bus concession forms.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>📢 Real-Time Announcements</h3>
+            <p>Stay updated with college notices and academic updates.</p>
+        </div>
+
+        <div class="feature-card">
+            <h3>🔐 Secure Google Login</h3>
+            <p>Safely sync your Google Classroom data with encrypted authentication.</p>
+        </div>
+    </div>
+</div>
+
+<footer>
+© 2026 Campus Assistant | Modern Academic Portal
+</footer>
+
+</body>
+</html>
