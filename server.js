@@ -198,5 +198,15 @@ app.get('/dashboard', isLoggedIn, async (req, res) => {
     }
 });
 
+
+// Private policy and terms
+app.get("/privacy", (req, res) => {
+    res.render("privacy");
+});
+
+app.get("/terms", (req, res) => {
+    res.render("terms");
+});
+
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));
