@@ -293,7 +293,7 @@ body{
 <!-- UPCOMING ASSIGNMENTS -->
 <div class="section-title">📅 Upcoming Assignments</div>
 
-<% let sorted=assignments .filter(w=> w.dueDate)
+<% let sorted=assignments.filter(w=> w.dueDate)
     .sort((a,b)=>{
     const da = new Date(a.dueDate.year,a.dueDate.month-1,a.dueDate.day);
     const db = new Date(b.dueDate.year,b.dueDate.month-1,b.dueDate.day);
