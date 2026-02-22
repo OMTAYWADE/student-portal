@@ -259,7 +259,7 @@ body{
 async function payNow() {
     try {
             const response = await fetch("/create-order", {
-            method: "POST"
+            method: "POST",
             });
 
         const order = await response.json();
