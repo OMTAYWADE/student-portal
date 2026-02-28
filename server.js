@@ -10,6 +10,14 @@ const GoogleStrategy = require('passport-google-oauth20').Strategy;
 const { google } = require('googleapis');
 const Razorpay = require('razorpay');
 
+// mongodb
+const mongoose = require('mongoose');
+const Assignment = require('./models/assignment');
+
+mongoose.connect(process.env.MONGO_URI)
+  .then(() => console.log("MongoDB Connected"))
+  .catch(err => console.log(err));
+
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json()); // ADD THIS near top (after static)
@@ -108,95 +116,115 @@ app.post("/create-order", async (req, res) => {
 
 // Dashboard
 app.get('/dashboard', isLoggedIn, async (req, res) => {
-    try {
-        const oauth2Client = new google.auth.OAuth2();
-        oauth2Client.setCredentials({
-            access_token: req.user.accessToken
+  try {
+
+    const oauth2Client = new google.auth.OAuth2();
+    oauth2Client.setCredentials({
+      access_token: req.user.accessToken
+    });
+
+    const classroom = google.classroom({
+      version: 'v1',
+      auth: oauth2Client
+    });
+
+    const coursesRes = await classroom.courses.list();
+    const courses = coursesRes.data.courses || [];
+
+    // 🔁 LOOP THROUGH ALL COURSES
+    for (let course of courses) {
+
+      const workRes = await classroom.courses.courseWork.list({
+        courseId: course.id
+      });
+
+      const works = workRes.data.courseWork || [];
+
+      for (let work of works) {
+
+        const dueDate = work.dueDate
+          ? new Date(
+              work.dueDate.year,
+              work.dueDate.month - 1,
+              work.dueDate.day
+            )
+          : null;
+
+        const exists = await Assignment.findOne({
+          googleId: work.id,
+          userId: req.user.id
         });
 
-        const classroom = google.classroom({
-            version: 'v1',
-            auth: oauth2Client
-        });
-
-        const coursesRes = await classroom.courses.list();
-        const courses = coursesRes.data.courses || [];
-
-        let allAssignments = [];
-        let allAnnouncements = [];
-        let allSubmissions = [];
-
-        for (let course of courses) {
-
-            // Fetch Assignments
-            const workRes = await classroom.courses.courseWork.list({
-                courseId: course.id
-            });
-
-            const works = workRes.data.courseWork || [];
-
-            works.forEach(work => {
-                work.courseName = course.name;
-                allAssignments.push(work);
-            });
-
-            // Fetch Submissions (optimized)
-            const submissionPromises = works.map(work =>
-                classroom.courses.courseWork.studentSubmissions.list({
-                    courseId: course.id,
-                    courseWorkId: work.id,
-                    userId: 'me'
-                }).then(subRes => {
-                    const submission = subRes.data.studentSubmissions?.[0];
-                    if (submission) {
-                        return {
-                            title: work.title,
-                            courseName: course.name,
-                            state: submission.state,
-                            updateTime: submission.updateTime
-                        };
-                    }
-                }).catch(() => null)
-            );
-
-            const submissionResults = await Promise.all(submissionPromises);
-
-            submissionResults.forEach(sub => {
-                if (sub) allSubmissions.push(sub);
-            });
-
-            // Fetch Announcements
-            const annRes = await classroom.courses.announcements.list({
-                courseId: course.id
-            });
-
-            const announcements = annRes.data.announcements || [];
-
-            announcements.forEach(a => {
-                a.courseName = course.name;
-                allAnnouncements.push(a);
-            });
+        if (!exists) {
+          await Assignment.create({
+            googleId: work.id,
+            userId: req.user.id,
+            title: work.title,
+            courseName: course.name,
+            dueDate
+          });
         }
-
-        // ✅ Render AFTER loop finishes
-        res.render('dashboard', {
-            user: req.user,
-            courses,
-            assignments: allAssignments,
-            announcements: allAnnouncements,
-            submissions: allSubmissions
-        });
-
-    } catch (err) {
-        console.error(err);
-
-        if (err.code === 401) {
-            return res.redirect('/auth/google');
-        }
-
-        res.send("Error loading dashboard");
+      }
     }
+
+    // 📦 FETCH FROM DATABASE
+    let assignments = await Assignment.find({
+      userId: req.user.id
+    });
+
+    const today = new Date();
+
+    assignments = assignments.map(a => {
+      const overdue =
+        a.dueDate &&
+        a.status === 'pending' &&
+        a.dueDate < today;
+
+      return {
+        ...a.toObject(),
+        overdue
+      };
+    });
+
+    // 📊 PRODUCTIVITY STATS
+    const total = assignments.length;
+    const pending = assignments.filter(a => a.status === 'pending').length;
+    const completed = assignments.filter(a => a.status === 'completed').length;
+    const overdue = assignments.filter(a => a.overdue).length;
+    const progress = total
+      ? Math.round((completed / total) * 100)
+      : 0;
+
+    res.render('dashboard', {
+      user: req.user,
+      courses,
+      assignments,
+      total,
+      pending,
+      completed,
+      overdue,
+      progress
+    });
+
+  } catch (err) {
+    console.error(err);
+
+    if (err.code === 401) {
+      return res.redirect('/auth/google');
+    }
+
+    res.send("Error loading dashboard");
+  }
 });
+
+app.post('/assignments/:id/undo', async (req, res) => {
+  await Assignment.findByIdAndUpdate(req.params.id, {
+    status: 'pending',
+    completedAt: null
+  });
+
+  res.json({ success: true });
+});        
 
 
 // Private policy and terms

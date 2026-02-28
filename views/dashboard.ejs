@@ -285,10 +285,18 @@ body{
 <div class="summary-card">
     <h3>Pending</h3>
     <p>
-        <%= assignments.filter(w=> w.state !== "TURNED_IN").length %>
+        <%= assignments.filter(a=> a.status !== "pending").length %>
             </p>
     </div>
+  </div>
+
+<div class="summary-card">
+    <h3>Completed</h3>
+    <p>
+        <%= assignments.filter(a=> a.state !== "pending").length %>
+            </p>
     </div>
+  </div>
 
 <!-- UPCOMING ASSIGNMENTS -->
 <div class="section-title">📅 Upcoming Assignments</div>
