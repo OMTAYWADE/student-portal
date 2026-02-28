@@ -217,6 +217,14 @@ app.get('/dashboard', isLoggedIn, async (req, res) => {
   }
 });
 
+app.post('/assignments/:id/complete', async (req, res) => {
+  await Assignment.findByIdAndUpdate(req.params.id, {
+    status: 'completed',
+    completedAt: new Date()
+  });
+    res.json({ success: true });
+});
+
 app.post('/assignments/:id/undo', async (req, res) => {
   await Assignment.findByIdAndUpdate(req.params.id, {
     status: 'pending',
