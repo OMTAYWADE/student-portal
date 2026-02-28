@@ -9,45 +9,45 @@
     * {
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
+      box-sizing: border-box
     }
 
     body {
       font-family: 'Inter', sans-serif;
-      background: #f1f5f9;
+      background: linear-gradient(135deg, #eef2ff, #f8fafc);
       min-height: 100vh;
       display: flex;
+      color: #1e293b;
     }
 
     /* SIDEBAR */
     .sidebar {
-      width: 250px;
-      background: #1e3a8a;
-      color: white;
+      width: 240px;
+      background: #111827;
+      color: #fff;
       padding: 30px 20px;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
-      transition: 0.3s;
     }
 
     .sidebar h2 {
       font-size: 18px;
       margin-bottom: 40px;
+      font-weight: 600;
     }
 
     .sidebar a {
       display: block;
-      color: white;
+      color: #d1d5db;
       text-decoration: none;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
       font-size: 14px;
-      opacity: 0.9;
-      transition: 0.2s;
+      transition: 0.3s;
     }
 
     .sidebar a:hover {
-      opacity: 1;
+      color: #fff;
       transform: translateX(4px);
     }
 
@@ -62,23 +62,12 @@
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 30px;
+      margin-bottom: 40px;
     }
 
     .topbar h2 {
-      font-size: 22px;
-    }
-
-    .profile {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .profile img {
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
+      font-size: 24px;
+      font-weight: 600;
     }
 
     /* SUMMARY */
@@ -90,52 +79,66 @@
     }
 
     .summary-card {
-      background: white;
-      padding: 22px;
-      border-radius: 14px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+      background: #fff;
+      padding: 24px;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
       transition: 0.3s;
     }
 
     .summary-card:hover {
-      transform: translateY(-4px);
+      transform: translateY(-5px);
     }
 
     .summary-card h3 {
       font-size: 13px;
       color: #64748b;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .summary-card p {
-      font-size: 24px;
-      font-weight: 600;
+      font-size: 26px;
+      font-weight: 700;
     }
 
-    /* SECTION */
+    /* Progress bar */
+    .progress-container {
+      margin-top: 10px;
+      background: #e5e7eb;
+      border-radius: 10px;
+      height: 10px;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 10px;
+      width: 0%;
+      background: linear-gradient(90deg, #22c55e, #16a34a);
+      transition: width 0.8s ease;
+    }
+
+    /* Section title */
     .section-title {
       font-size: 18px;
       font-weight: 600;
-      margin-bottom: 18px;
+      margin: 30px 0 20px 0;
     }
 
     /* CARD */
     .card {
-      background: white;
-      padding: 22px;
-      border-radius: 14px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-      margin-bottom: 40px;
+      background: #fff;
+      padding: 25px;
+      border-radius: 18px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     }
 
-    /* ASSIGNMENTS */
+    /* ASSIGNMENT ROW */
     .assignment {
-      padding: 14px 0;
-      border-bottom: 1px solid #e2e8f0;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 15px;
+      padding: 16px 0;
+      border-bottom: 1px solid #f1f5f9;
     }
 
     .assignment:last-child {
@@ -143,8 +146,7 @@
     }
 
     .assignment-info strong {
-      display: block;
-      font-size: 14px;
+      font-size: 15px;
     }
 
     .assignment-info small {
@@ -154,94 +156,76 @@
 
     /* BADGES */
     .badge {
-      padding: 5px 10px;
-      border-radius: 6px;
+      padding: 6px 12px;
+      border-radius: 20px;
       font-size: 11px;
-      font-weight: 500;
+      font-weight: 600;
     }
 
-    .pending {
-      background: #fee2e2;
-      color: #b91c1c;
+    .badge.pending {
+      background: #fef3c7;
+      color: #92400e;
     }
 
-    .done {
+    .badge.done {
       background: #dcfce7;
       color: #166534;
     }
 
-    /* COURSES GRID */
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 20px;
+    .badge.overdue {
+      background: #fee2e2;
+      color: #b91c1c;
     }
 
-    .course-card {
-      background: white;
-      padding: 20px;
-      border-radius: 14px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
-      transition: 0.3s;
-    }
-
-    .course-card:hover {
-      transform: translateY(-4px);
-    }
-
-    .course-card h3 {
-      font-size: 14px;
-      margin-bottom: 6px;
-    }
-
-    .course-card p {
+    /* BUTTONS */
+    .action-btn {
+      padding: 6px 12px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
       font-size: 12px;
-      color: #64748b;
+      margin-left: 10px;
+      transition: 0.2s;
     }
 
-    /* EMPTY STATE */
-    .empty {
-      background: white;
-      padding: 30px;
-      text-align: center;
-      border-radius: 14px;
-      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+    .btn-complete {
+      background: #22c55e;
+      color: white;
+    }
+
+    .btn-complete:hover {
+      background: #16a34a;
+    }
+
+    .btn-undo {
+      background: #ef4444;
+      color: white;
+    }
+
+    .btn-undo:hover {
+      background: #dc2626;
     }
 
     /* MOBILE */
     @media(max-width:900px) {
       body {
-        flex-direction: column;
+        flex-direction: column
       }
 
       .sidebar {
         width: 100%;
         flex-direction: row;
-        align-items: center;
-        padding: 15px 20px;
-      }
-
-      .sidebar h2 {
-        margin: 0;
-      }
-
-      .sidebar div {
-        display: flex;
-        gap: 20px;
-      }
-
-      .sidebar a {
-        margin: 0;
+        justify-content: space-between;
       }
 
       .main {
-        padding: 20px;
+        padding: 20px
       }
 
       .topbar {
         flex-direction: column;
         align-items: flex-start;
-        gap: 15px;
+        gap: 10px
       }
     }
   </style>
@@ -284,37 +268,38 @@
         <p class="totalCount">
           <%= total %>
         </p>
-        </div>
-        
-        <div class="summary-card">
-          <h3>Completed</h3>
-          <p class="completeCount">
-            <%= completed %>
-          </p>
-        </div>
+      </div>
+
+      <div class="summary-card">
+        <h3>Completed</h3>
+        <p class="completeCount">
+          <%= completed %>
+        </p>
+      </div>
 
       <div class="summary-card">
         <h3>Pending</h3>
         <p class="pendingCount">
           <%= pending %>
         </p>
-        </div>
-        
-        <div class="summary-card">
-          <h3>Overdue</h3>
+      </div>
+
+      <div class="summary-card">
+        <h3>Overdue</h3>
         <p>
           <%= overdue %>
-            </p>
-            </div>
+        </p>
+      </div>
 
       <div class="summary-card">
         <h3>Productivity</h3>
         <p class="progressText">
           <%= progress %>%
         </p>
-        </div>
+      </div>
       <div style="margin-top:10px;background:#e2e8f0;border-radius:8px;height:10px;">
-        <div id="progressBar" style="height:10px;width:0%;background:#16a34a;border-radius:8px;transition:width 0.6s ease;">
+        <div id="progressBar"
+          style="height:10px;width:0%;background:#16a34a;border-radius:8px;transition:width 0.6s ease;">
         </div>
       </div>
     </div>
@@ -326,15 +311,15 @@
 
       <div class="empty">
         <h3>No Assignments Found 🎉</h3>
-        </div>
+      </div>
 
       <% } else { %>
 
         <div class="card">
-<% assignments .sort((a,b)=> new Date(a.dueDate || 0) - new Date(b.dueDate || 0))
-  .forEach(work => { %>
+          <% assignments .sort((a,b)=> new Date(a.dueDate || 0) - new Date(b.dueDate || 0))
+            .forEach(work => { %>
 
-  <div class="assignment">
+            <div class="assignment">
 
               <div class="assignment-info">
                 <strong>
@@ -342,80 +327,58 @@
                 </strong>
                 <small>
                   <%= work.dueDate ? new Date(work.dueDate).toLocaleDateString() : "No Due Date" %>
-                    </small>
-                    </div>
-
-              <div>
-              
-                <% if(work.status==="completed" ) { %>
-              
-                  <span class="badge done">Completed</span>
-              
-                  <form action="/assignments/<%= work._id %>/undo" method="POST" style="display:inline;">
-                    <button
-                      style="margin-left:8px;padding:6px 10px;border:none;border-radius:6px;background:#dc2626;color:white;cursor:pointer;">
-                      Undo
-                    </button>
-                  </form>
-              
-                  <% } else if(work.overdue) { %>
-              
-                    <span class="badge pending" style="background:#facc15;color:#92400e;">
-                      Overdue
-                    </span>
-              
-                    <form action="/assignments/<%= work._id %>/complete" method="POST" style="display:inline;">
-                      <button onclick="updateStatus('<%= work._id %>', 'complete')"
-                        style="margin-left:8px;padding:6px 10px;border:none;border-radius:6px;background:#16a34a;color:white;cursor:pointer;">
-                        Mark Done
-                      </button>
-                    </form>
-              
-                    <% } else { %>
-<span class="badge pending">Pending</span>
-
-<form action="/assignments/<%= work._id %>/complete" method="POST" style="display:inline;">
-  <button
-    style="margin-left:8px;padding:6px 10px;border:none;border-radius:6px;background:#16a34a;color:white;cursor:pointer;">
-    Mark Done
-  </button>
-</form>
-
-                      <% } %>
-
+                </small>
               </div>
 
-            </div>
+              <div>
+                <% if(work.status==="completed" ) { %>
+                  <span class="badge done">Completed</span>
+                  <button class="action-btn btn-undo" onclick="updateStatus('<%= work._id %>', 'undo')">
+                    Undo
+                  </button>
+                  <% } else if(work.overdue) { %>
+                    <span class="badge overdue">Overdue</span>
+                    <button class="action-btn btn-complete" onclick="updateStatus('<%= work._id %>', 'complete')">
+                      Mark Done
+                    </button>
+                    <% } else { %>
+                      <span class="badge pending">Pending</span>
+                      <button class="action-btn btn-complete" onclick="updateStatus('<%= work._id %>', 'complete')">
+                        Mark Done
+                      </button>
+                    <% } %>
+              </div>
+              <% }) %>
 
-            <% }) %>
+            </div>
+            <% } %>
 
         </div>
-        <% } %>
+       <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const progressText = document.querySelector(".progressText");
+  if(progressText){
+    const progress = parseInt(progressText.innerText);
+    document.querySelector(".progress-bar").style.width = progress + "%";
+  }
+});
 
-  </div>
-  <script>
-    document.addEventListener("DOMContentLoaded", () => {
-      const progress = parseInt(document.getElementById("progressText").innerText);
-      document.getElementById("progressBar").style.width = progress + "%";
+async function updateStatus(id, action) {
+  try {
+    const res = await fetch(`/assignments/${id}/${action}`, {
+      method: "POST"
     });
 
-    async function updateStatus(id, action) {
-      try {
-        const res = await fetch(`/assignments/${id}/${action}`, {
-          method: "POST"
-        });
+    const data = await res.json();
 
-        const data = await res.json();
-
-        if (data.success) {
-          location.reload(); // temporary (we improve next)
-        }
-      } catch (err) {
-        console.error(err);
-      }
+    if (data.success) {
+      location.reload(); // later we remove reload
     }
-
-  </script>
+  } catch (err) {
+    console.error(err);
+  }
+}
+</script>
 </body>
 
 </html>
