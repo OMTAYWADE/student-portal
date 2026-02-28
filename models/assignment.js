@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const assignmentSchema = new mongoose.Schema({
   googleId: {
     type: String,
@@ -24,3 +26,5 @@ const assignmentSchema = new mongoose.Schema({
 
   completedAt: Date
 }, { timestamps: true });
+
+module.exports = mongoose.model('Assignment', assignmentSchema);
