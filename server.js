@@ -160,7 +160,8 @@ app.get('/dashboard', isLoggedIn, async (req, res) => {
             googleId: work.id,
             userId: req.user.id,
             title: work.title,
-            courseName: course.name,
+              courseName: course.name,
+            alternateLink: work.alternateLink,
             dueDate
           });
         }

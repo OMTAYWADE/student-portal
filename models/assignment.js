@@ -11,7 +11,8 @@ const assignmentSchema = new mongoose.Schema({
     },
   title: String,
   courseName: String,
-  dueDate: Date,
+    dueDate: Date,
+  alternateLink: String,
 
   status: {
     type: String,
