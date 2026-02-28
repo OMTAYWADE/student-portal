@@ -14,16 +14,16 @@
 
     body {
       font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #eef2ff, #f8fafc);
-      min-height: 100vh;
+      background: #f8fafc;
       display: flex;
-      color: #1e293b;
+      min-height: 100vh;
+      color: #0f172a;
     }
 
-    /* SIDEBAR */
+    /* Sidebar */
     .sidebar {
-      width: 240px;
-      background: #111827;
+      width: 230px;
+      background: #0f172a;
       color: #fff;
       padding: 30px 20px;
       display: flex;
@@ -33,31 +33,31 @@
 
     .sidebar h2 {
       font-size: 18px;
-      margin-bottom: 40px;
-      font-weight: 600;
+      margin-bottom: 35px;
     }
 
     .sidebar a {
       display: block;
-      color: #d1d5db;
+      color: #cbd5e1;
       text-decoration: none;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
       font-size: 14px;
-      transition: 0.3s;
+      transition: 0.2s;
     }
 
     .sidebar a:hover {
-      color: #fff;
-      transform: translateX(4px);
+      color: white;
     }
 
-    /* MAIN */
+    /* Main */
     .main {
       flex: 1;
       padding: 40px;
+      max-width: 1200px;
+      margin: auto;
     }
 
-    /* TOPBAR */
+    /* Topbar */
     .topbar {
       display: flex;
       justify-content: space-between;
@@ -66,78 +66,72 @@
     }
 
     .topbar h2 {
-      font-size: 24px;
+      font-size: 22px;
       font-weight: 600;
     }
 
-    /* SUMMARY */
+    /* Summary grid */
     .summary {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
       gap: 20px;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
     }
 
-    .summary-card {
-      background: #fff;
-      padding: 24px;
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
-      transition: 0.3s;
+    .card {
+      background: white;
+      padding: 22px;
+      border-radius: 14px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
     }
 
-    .summary-card:hover {
-      transform: translateY(-5px);
-    }
-
-    .summary-card h3 {
+    .card h3 {
       font-size: 13px;
       color: #64748b;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
-    .summary-card p {
-      font-size: 26px;
-      font-weight: 700;
+    .card p {
+      font-size: 24px;
+      font-weight: 600;
     }
 
-    /* Progress bar */
-    .progress-container {
+    /* Progress */
+    .progress-wrap {
       margin-top: 10px;
-      background: #e5e7eb;
+      height: 8px;
+      background: #e2e8f0;
       border-radius: 10px;
-      height: 10px;
       overflow: hidden;
     }
 
     .progress-bar {
-      height: 10px;
+      height: 8px;
       width: 0%;
-      background: linear-gradient(90deg, #22c55e, #16a34a);
-      transition: width 0.8s ease;
+      background: #22c55e;
+      transition: width 0.6s ease;
     }
 
-    /* Section title */
+    /* Section */
     .section-title {
-      font-size: 18px;
+      margin: 30px 0 15px;
       font-weight: 600;
-      margin: 30px 0 20px 0;
+      font-size: 17px;
     }
 
-    /* CARD */
-    .card {
-      background: #fff;
-      padding: 25px;
-      border-radius: 18px;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    /* Assignment list */
+    .assignment-list {
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      padding: 10px 20px;
     }
 
-    /* ASSIGNMENT ROW */
     .assignment {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 16px 0;
+      padding: 14px 0;
       border-bottom: 1px solid #f1f5f9;
     }
 
@@ -146,67 +140,62 @@
     }
 
     .assignment-info strong {
-      font-size: 15px;
+      font-size: 14px;
     }
 
     .assignment-info small {
-      color: #64748b;
       font-size: 12px;
+      color: #64748b;
     }
 
-    /* BADGES */
+    /* Badges */
     .badge {
-      padding: 6px 12px;
+      padding: 4px 10px;
       border-radius: 20px;
       font-size: 11px;
-      font-weight: 600;
+      font-weight: 500;
     }
 
     .badge.pending {
       background: #fef3c7;
-      color: #92400e;
+      color: #92400e
     }
 
     .badge.done {
       background: #dcfce7;
-      color: #166534;
+      color: #166534
     }
 
     .badge.overdue {
       background: #fee2e2;
-      color: #b91c1c;
+      color: #b91c1c
     }
 
-    /* BUTTONS */
-    .action-btn {
-      padding: 6px 12px;
+    /* Buttons */
+    .btn {
+      padding: 5px 10px;
       border: none;
-      border-radius: 8px;
+      border-radius: 6px;
       cursor: pointer;
       font-size: 12px;
-      margin-left: 10px;
-      transition: 0.2s;
+      margin-left: 8px;
     }
 
     .btn-complete {
       background: #22c55e;
-      color: white;
-    }
-
-    .btn-complete:hover {
-      background: #16a34a;
+      color: white
     }
 
     .btn-undo {
       background: #ef4444;
-      color: white;
+      color: white
     }
 
-    .btn-undo:hover {
-      background: #dc2626;
+    .btn:hover {
+      opacity: 0.9
     }
 
-    /* MOBILE */
+    /* Mobile */
     @media(max-width:900px) {
       body {
         flex-direction: column
@@ -215,17 +204,12 @@
       .sidebar {
         width: 100%;
         flex-direction: row;
+        align-items: center;
         justify-content: space-between;
       }
 
       .main {
         padding: 20px
-      }
-
-      .topbar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 10px
       }
     }
   </style>
@@ -256,52 +240,51 @@
     <!-- SUMMARY -->
     <div class="summary">
 
-      <div class="summary-card">
+      <div class="card">
         <h3>Total Courses</h3>
         <p>
           <%= courses.length %>
         </p>
       </div>
 
-      <div class="summary-card">
+      <div class="card">
         <h3>Total Assignments</h3>
-        <p class="totalCount">
+        <p>
           <%= total %>
         </p>
       </div>
 
-      <div class="summary-card">
+      <div class="card">
         <h3>Completed</h3>
-        <p class="completeCount">
+        <p>
           <%= completed %>
         </p>
       </div>
 
-      <div class="summary-card">
+      <div class="card">
         <h3>Pending</h3>
-        <p class="pendingCount">
+        <p>
           <%= pending %>
         </p>
       </div>
 
-      <div class="summary-card">
+      <div class="card">
         <h3>Overdue</h3>
         <p>
           <%= overdue %>
         </p>
       </div>
 
-      <div class="summary-card">
+      <div class="card">
         <h3>Productivity</h3>
         <p class="progressText">
           <%= progress %>%
         </p>
-      </div>
-      <div style="margin-top:10px;background:#e2e8f0;border-radius:8px;height:10px;">
-        <div id="progressBar"
-          style="height:10px;width:0%;background:#16a34a;border-radius:8px;transition:width 0.6s ease;">
+        <div class="progress-wrap">
+          <div class="progress-bar"></div>
         </div>
       </div>
+
     </div>
 
     <!-- ASSIGNMENTS -->
@@ -346,7 +329,7 @@
                       <button class="action-btn btn-complete" onclick="updateStatus('<%= work._id %>', 'complete')">
                         Mark Done
                       </button>
-                    <% } %>
+                      <% } %>
               </div>
               <% }) %>
 
@@ -354,31 +337,33 @@
             <% } %>
 
         </div>
-       <script>
-document.addEventListener("DOMContentLoaded", () => {
-  const progressText = document.querySelector(".progressText");
-  if(progressText){
-    const progress = parseInt(progressText.innerText);
-    document.querySelector(".progress-bar").style.width = progress + "%";
-  }
-});
+        <script>
 
-async function updateStatus(id, action) {
-  try {
-    const res = await fetch(`/assignments/${id}/${action}`, {
-      method: "POST"
-    });
+          document.addEventListener("DOMContentLoaded", () => {
+            const text = document.querySelector(".progressText");
+            if (text) {
+              const value = parseInt(text.innerText);
+              document.querySelector(".progress-bar").style.width = value + "%";
+            }
+          });
 
-    const data = await res.json();
 
-    if (data.success) {
-      location.reload(); // later we remove reload
-    }
-  } catch (err) {
-    console.error(err);
-  }
-}
-</script>
+          async function updateStatus(id, action) {
+            try {
+              const res = await fetch(`/assignments/${id}/${action}`, {
+                method: "POST"
+              });
+
+              const data = await res.json();
+
+              if (data.success) {
+                location.reload(); // later we remove reload
+              }
+            } catch (err) {
+              console.error(err);
+            }
+          }
+        </script>
 </body>
 
 </html>
