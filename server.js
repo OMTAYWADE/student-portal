@@ -18,6 +18,14 @@ mongoose.connect(process.env.MONGO_URI)
   .then(() => console.log("MongoDB Connected"))
   .catch(err => console.log(err));
 
+// pdf uploader setup
+const multer = require("multer");
+const pdfParse = require("pdf-parse");
+const fs = require("fs");
+const Result = require("./models/result");
+
+const upload = multer({ dest: "uploads/" });
+
 app.set('view engine', 'ejs');
 app.use(express.static(path.join(__dirname, 'public')));
 app.use(express.json()); // ADD THIS near top (after static)
@@ -113,9 +121,43 @@ app.post("/create-order", async (req, res) => {
     }
 });
 
+//Dashboard
+app.get("/dashboard", isLoggedIn, async (req, res) => {
 
-// Dashboard
-app.get('/dashboard', isLoggedIn, async (req, res) => {
+  const assignments = await Assignment.find({ userId: req.user.id });
+  const result = await Result.findOne({ userId: req.user.id });
+
+  const total = assignments.length;
+  const completed = assignments.filter(a => a.status === "completed").length;
+  const pending = assignments.filter(a => a.status === "pending").length;
+  const progress = total ? Math.round((completed / total) * 100) : 0;
+
+  let cgpa = 0;
+  let totalKT = 0;
+  let latestSGPA = 0;
+
+  if(result){
+    cgpa = result.cgpa;
+    totalKT = result.totalKT;
+    latestSGPA = result.semesters.length
+      ? result.semesters[result.semesters.length - 1].sgpa
+      : 0;
+  }
+
+  res.render("dashboard", {
+    user: req.user,
+    total,
+    completed,
+    pending,
+    progress,
+    cgpa,
+    totalKT,
+    latestSGPA
+  });
+});
+
+// Assignment notifications 
+app.get('/assignNotification', isLoggedIn, async (req, res) => {
   try {
 
     const oauth2Client = new google.auth.OAuth2();
@@ -234,6 +276,114 @@ app.post('/assignments/:id/undo', async (req, res) => {
 
   res.json({ success: true });
 });        
+
+// courses page
+app.get("/allcourses", isLoggedIn, (req, res) => {
+    const assignments = Assignment.find({ userId: req.user.id });
+    const coursesWithStats = courses.map(course => {
+        const related = assignments.filter(a => a.courseName === course.name);
+
+        const total = related.length;
+        const pending = related.filter(a => a.status === 'pending').length;
+        const completed = related.filter(a => a.status === 'completed').length;
+        const progress = total ? Math.round((completed / total) * 100) : 0;
+        
+        return {
+            ...course,
+            total,
+            pending,
+            completed,
+            progress
+        };
+    });
+    res.render("allCourses", {
+        user: req.user,
+        courses: coursesWithStats
+    });
+});
+
+/* =======================
+   RESULTS PAGE
+======================= */
+
+app.get("/results", isLoggedIn, async (req, res) => {
+
+  const result = await Result.findOne({ userId: req.user.id });
+
+  if (!result) {
+    return res.render("results", {
+      result: null
+    });
+  }
+
+  res.render("results", { result });
+});
+
+
+/* =======================
+   PDF UPLOAD
+======================= */
+
+app.post("/upload-result", isLoggedIn, upload.single("resultPdf"), async (req, res) => {
+
+  const dataBuffer = fs.readFileSync(req.file.path);
+  const pdfData = await pdfParse(dataBuffer);
+  const text = pdfData.text;
+
+  // ⚠ Customize this parsing according to your university format
+  const parsed = parseResult(text);
+
+  await Result.findOneAndUpdate(
+    { userId: req.user.id },
+    parsed,
+    { upsert: true }
+  );
+
+  res.redirect("/results");
+});
+
+
+/* =======================
+   SIMPLE PARSER EXAMPLE
+======================= */
+
+function parseResult(text) {
+
+  const sgpaMatch = text.match(/SGPA\s*:\s*(\d+\.\d+)/);
+  const cgpaMatch = text.match(/CGPA\s*:\s*(\d+\.\d+)/);
+
+  const sgpa = sgpaMatch ? parseFloat(sgpaMatch[1]) : 0;
+  const cgpa = cgpaMatch ? parseFloat(cgpaMatch[1]) : 0;
+
+  const subjects = [];
+  const subjectRegex = /([A-Za-z\s]+)\s+(\d+)\s+(\d+)\s+([A-Z])/g;
+
+  let match;
+  while ((match = subjectRegex.exec(text)) !== null) {
+    subjects.push({
+      name: match[1].trim(),
+      marks: parseInt(match[2]),
+      total: parseInt(match[3]),
+      grade: match[4],
+      kt: match[4] === "F"
+    });
+  }
+
+  const totalKT = subjects.filter(s => s.kt).length;
+
+  return {
+    cgpa,
+    totalKT,
+    semesters: [
+      {
+        semesterNumber: 1,
+        sgpa,
+        subjects
+      }
+    ]
+  };
+}
+
 
 
 // Private policy and terms

@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Campus Assistant | Results</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:'Inter',sans-serif;
+  background:#f4f6fb;
+  min-height:100vh;
+  color:#1e293b;
+}
+.container{
+  max-width:1100px;
+  margin:auto;
+  padding:50px 20px;
+}
+
+h1{
+  font-size:28px;
+  margin-bottom:30px;
+}
+
+.card{
+  background:white;
+  border-radius:18px;
+  padding:30px;
+  box-shadow:0 15px 35px rgba(0,0,0,0.05);
+  margin-bottom:30px;
+}
+
+.overview{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+}
+
+.overview-box{
+  background:#f8fafc;
+  padding:20px;
+  border-radius:12px;
+}
+
+.overview-box h3{
+  font-size:13px;
+  color:#64748b;
+  margin-bottom:8px;
+}
+
+.overview-box p{
+  font-size:22px;
+  font-weight:600;
+}
+
+.kt-alert{
+  background:#fee2e2;
+  color:#b91c1c;
+  padding:15px;
+  border-radius:12px;
+  margin-top:20px;
+}
+
+.semester{
+  margin-top:40px;
+}
+
+.subject-row{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr 1fr 1fr;
+  padding:15px;
+  border-bottom:1px solid #f1f5f9;
+  font-size:14px;
+}
+
+.subject-row.header{
+  font-weight:600;
+  background:#f8fafc;
+}
+
+.badge{
+  padding:4px 10px;
+  border-radius:20px;
+  font-size:11px;
+  font-weight:500;
+}
+
+.pass{
+  background:#dcfce7;
+  color:#166534;
+}
+
+.kt{
+  background:#fee2e2;
+  color:#b91c1c;
+}
+
+.upload-box{
+  text-align:center;
+  padding:40px;
+  border:2px dashed #cbd5e1;
+  border-radius:18px;
+}
+
+.btn{
+  margin-top:15px;
+  padding:8px 14px;
+  border:none;
+  border-radius:8px;
+  background:#6366f1;
+  color:white;
+  cursor:pointer;
+}
+
+@media(max-width:700px){
+  .subject-row{
+    grid-template-columns:1fr;
+    gap:6px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h1>🎓 Academic Results</h1>
+
+<% if(!result) { %>
+
+<div class="card upload-box">
+  <h2>Upload Your Result PDF</h2>
+  <form action="/upload-result" method="POST" enctype="multipart/form-data">
+    <input type="file" name="resultPdf" required>
+    <br>
+    <button type="submit" class="btn">Upload Result</button>
+  </form>
+</div>
+
+<% } else { %>
+
+<div class="card">
+  <div class="overview">
+
+    <div class="overview-box">
+      <h3>CGPA</h3>
+      <p><%= result.cgpa %></p>
+    </div>
+
+    <div class="overview-box">
+      <h3>Total KT</h3>
+      <p><%= result.totalKT %></p>
+    </div>
+
+    <div class="overview-box">
+      <h3>Last Updated</h3>
+      <p><%= new Date(result.uploadedAt).toLocaleDateString() %></p>
+    </div>
+
+  </div>
+
+  <% if(result.totalKT > 0){ %>
+    <div class="kt-alert">
+      ⚠ You have <strong><%= result.totalKT %></strong> active KT subjects.
+    </div>
+  <% } %>
+
+</div>
+
+<% result.semesters.forEach(sem => { %>
+
+<div class="semester card">
+
+<h2 style="margin-bottom:15px;">Semester <%= sem.semesterNumber %> (SGPA: <%= sem.sgpa %>)</h2>
+
+<div class="subject-row header">
+  <div>Subject</div>
+  <div>Marks</div>
+  <div>Total</div>
+  <div>Grade</div>
+  <div>Status</div>
+</div>
+
+<% sem.subjects.forEach(sub => { %>
+
+<div class="subject-row">
+  <div><%= sub.name %></div>
+  <div><%= sub.marks %></div>
+  <div><%= sub.total %></div>
+  <div><%= sub.grade %></div>
+  <div>
+    <% if(sub.kt){ %>
+      <span class="badge kt">KT</span>
+    <% } else { %>
+      <span class="badge pass">Pass</span>
+    <% } %>
+  </div>
+</div>
+
+<% }) %>
+
+</div>
+
+<% }) %>
+
+<% } %>
+
+</div>
+
+</body>
+</html>

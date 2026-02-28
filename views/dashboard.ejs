@@ -2,446 +2,322 @@
 <html>
 
 <head>
-  <title>Campus Assistant | Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box
-    }
+    <title>Campus Assistant | Dashboard</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #eef2f7;
-      display: flex;
-      min-height: 100vh;
-      color: #1e293b;
-    }
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box
+        }
 
-    /* Sidebar */
-    .sidebar {
-      width: 220px;
-      background: #111827;
-      color: white;
-      padding: 30px 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #eef2ff, #f8fafc);
+            color: #0f172a;
+            min-height: 100vh;
+        }
 
-    .sidebar h2 {
-      font-size: 18px;
-      margin-bottom: 30px;
-    }
+        /* Layout */
+        .wrapper {
+            display: flex;
+            min-height: 100vh;
+        }
 
-    .sidebar a {
-      display: block;
-      color: #cbd5e1;
-      text-decoration: none;
-      margin-bottom: 12px;
-      font-size: 14px;
-      transition: 0.2s;
-    }
+        /* Sidebar */
+        .sidebar {
+            width: 240px;
+            background: #0f172a;
+            color: white;
+            padding: 30px 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
 
-    .sidebar a:hover {
-      color: white;
-    }
+        .sidebar h2 {
+            font-size: 18px;
+            margin-bottom: 30px;
+        }
 
-    /* Main container */
-    .main {
-      flex: 1;
-      padding: 50px;
-    }
+        .sidebar a {
+            display: block;
+            color: #cbd5e1;
+            text-decoration: none;
+            margin-bottom: 15px;
+            font-size: 14px;
+            transition: 0.2s;
+        }
 
-    .content-wrapper {
-      max-width: 1100px;
-      margin: auto;
-    }
+        .sidebar a:hover {
+            color: white;
+            transform: translateX(4px);
+        }
 
-    /* Topbar */
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 40px;
-    }
+        /* Main */
+        .main {
+            flex: 1;
+            padding: 50px;
+        }
 
-    .topbar h2 {
-      font-size: 24px;
-      font-weight: 600;
-    }
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 40px;
+        }
 
-    /* Summary */
-    .summary {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 25px;
-      margin-bottom: 40px;
-    }
+        .topbar h1 {
+            font-size: 26px;
+        }
 
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
-    }
+        .profile img {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+        }
 
-    .card h3 {
-      font-size: 13px;
-      color: #64748b;
-      margin-bottom: 10px;
-    }
+        /* Grid */
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
 
-    .card p {
-      font-size: 26px;
-      font-weight: 600;
-    }
+        /* Cards */
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            transition: 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
 
-    /* Progress */
-    .progress-wrap {
-      margin-top: 12px;
-      height: 8px;
-      background: #e2e8f0;
-      border-radius: 10px;
-      overflow: hidden;
-    }
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1);
+        }
 
-    .progress-bar {
-      height: 8px;
-      width: 0%;
-      background: linear-gradient(90deg, #22c55e, #16a34a);
-      transition: width 0.6s ease;
-    }
+        .card h3 {
+            font-size: 13px;
+            color: #64748b;
+            margin-bottom: 8px;
+        }
 
-    /* Section title */
-    .section-title {
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
+        .card p {
+            font-size: 28px;
+            font-weight: 600;
+        }
 
-    /* Assignment container */
-    .assignment-container {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
-      padding: 10px 25px;
-    }
+        /* Gradient accent */
+        .card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #6366f1, #22c55e);
+        }
 
-    /* Assignment row */
-    .assignment {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px 0;
-  border-bottom: 1px solid #f1f5f9;
-  transition: background 0.2s ease;
-}
+        /* Progress bar */
+        .progress-wrap {
+            margin-top: 12px;
+            height: 8px;
+            background: #e2e8f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
 
-.assignment:hover {
-  background: #f8fafc;
-  border-radius: 10px;
-  padding-left: 10px;
-  padding-right: 10px;
-}
+        .progress-bar {
+            height: 8px;
+            width: 0%;
+            background: linear-gradient(90deg, #6366f1, #22c55e);
+            transition: width 1s ease;
+        }
 
-    .assignment:last-child {
-      border-bottom: none;
-    }
+        /* Alert */
+        .alert {
+            background: #fee2e2;
+            color: #b91c1c;
+            padding: 15px;
+            border-radius: 14px;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
 
-    .assignment-info {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
+        /* Quick Actions */
+        .actions {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
 
-    .assignment-info strong {
-      font-size: 15px;
-    }
+        .actions a {
+            flex: 1;
+            text-align: center;
+            padding: 14px;
+            border-radius: 14px;
+            background: linear-gradient(90deg, #6366f1, #4f46e5);
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
 
-    .assignment-info small {
-      font-size: 13px;
-      color: #64748b;
-    }
+        .actions a:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 20px rgba(99, 102, 241, 0.4);
+        }
 
-    /* Status */
-    .badge {
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 500;
-    }
+        /* Responsive */
+        @media(max-width:900px) {
+            .wrapper {
+                flex-direction: column;
+            }
 
-    .badge.pending {
-      background: #fef3c7;
-      color: #92400e
-    }
+            .sidebar {
+                width: 100%;
+                flex-direction: row;
+                align-items: center;
+                justify-content: space-between;
+            }
 
-    .badge.done {
-      background: #dcfce7;
-      color: #166534
-    }
-
-    .badge.overdue {
-      background: #fee2e2;
-      color: #b91c1c
-    }
-
-    /* Buttons */
-    .btn {
-      padding: 6px 12px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 12px;
-      margin-left: 8px;
-      transition: 0.2s;
-    }
-
-    .btn-complete {
-      background: #22c55e;
-      color: white
-    }
-
-    .btn-undo {
-      background: #ef4444;
-      color: white
-    }
-
-    .btn:hover {
-      opacity: 0.85
-    }
-
-    .filter-btn {
-  padding:6px 14px;
-  border-radius:20px;
-  border:none;
-  cursor:pointer;
-  background:#e2e8f0;
-  font-size:12px;
-}
-
-.filter-btn.active {
-  background:#111827;
-  color:white;
-}
-
-    /* Responsive */
-    @media(max-width:900px) {
-      body {
-        flex-direction: column
-      }
-
-      .sidebar {
-        width: 100%;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-      }
-
-      .main {
-        padding: 20px
-      }
-    }
-  </style>
+            .main {
+                padding: 30px 20px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-  <!-- SIDEBAR -->
-  <div class="sidebar">
-    <div>
-      <h2>🎓 Campus Assistant</h2>
-      <a href="/dashboard">Dashboard</a>
-      <a href="/busform">Transport</a>
-    </div>
-    <a href="/logout">Logout</a>
-  </div>
+    <div class="wrapper">
 
-  <div class="main">
-    <div class="content-wrapper">
-      <!-- TOPBAR -->
-      <div class="topbar">
-        <h2>Welcome, <%= user.displayName %> 👋</h2>
-        <div class="profile">
-          <img src="<%= user.photos?.[0]?.value || 'https://via.placeholder.com/40' %>">
-        </div>
-      </div>
-
-      <!-- SUMMARY -->
-      <div class="summary">
-
-        <div class="card">
-          <h3>Total Courses</h3>
-          <p>
-            <%= courses.length %>
-          </p>
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div>
+                <h2>🎓 Campus Assistant</h2>
+                <a href="/dashboard">Dashboard</a>
+                <a href="/assignments">Assignments</a>
+                <a href="/courses">Courses</a>
+                <a href="/results">Results</a>
+            </div>
+            <a href="/logout">Logout</a>
         </div>
 
-        <div class="card">
-          <h3>Total Assignments</h3>
-          <p>
-            <%= total %>
-          </p>
-        </div>
+        <!-- Main -->
+        <div class="main">
 
-        <div class="card">
-          <h3>Completed</h3>
-          <p>
-            <%= completed %>
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Pending</h3>
-          <p>
-            <%= pending %>
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Overdue</h3>
-          <p>
-            <%= overdue %>
-          </p>
-        </div>
-
-        <div class="card">
-          <h3>Productivity</h3>
-          <p class="progressText">
-            <%= progress %>%
-          </p>
-          <div class="progress-wrap">
-            <div class="progress-bar"></div>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <div style="margin-bottom:20px;display:flex;gap:10px;">
-  <button class="filter-btn active" onclick="filterAssignments('all')">All</button>
-  <button class="filter-btn" onclick="filterAssignments('pending')">Pending</button>
-  <button class="filter-btn" onclick="filterAssignments('completed')">Completed</button>
-  <button class="filter-btn" onclick="filterAssignments('overdue')">Overdue</button>
-</div>
-
-    <!-- ASSIGNMENTS -->
-    <div class="section-title">📅 Your Assignments</div>
-
-    <% if(assignments.length===0) { %>
-
-      <div class="card">
-        <p style="text-align:center;padding:20px;color:#64748b;">
-          No Assignments Found 🎉
-        </p>
-      </div>
-
-      <% } else { %>
-
-        <div class="assignment-container">
-          <% assignments .sort((a,b)=> new Date(a.dueDate || 0) - new Date(b.dueDate || 0))
-            .forEach(work => { %>
-
-            <div class="assignment">
-
-              <div class="assignment-info">
-                <a href="<%= work.alternateLink %>" 
-   target="_blank"
-   style="font-size:15px;font-weight:600;color:#0f172a;text-decoration:none;">
-   <%= work.title %>
-</a>
-
-                <small>📚 <%= work.courseName %></small>
-
-                <small>
-                  <%= work.dueDate ? new Date(work.dueDate).toLocaleDateString() : "No Due Date" %>
-                </small>
-              </div>
-
-              <div>
-                <% if(work.status==="completed" ) { %>
-                  <span class="badge done">Completed</span>
-                  <button class="btn btn-undo" onclick="updateStatus('<%= work._id %>', 'undo')">
-                    Undo
-                  </button>
-
-                  <% } else if(work.overdue) { %>
-                    <span class="badge overdue">Overdue</span>
-                    <button class="btn btn-complete" onclick="updateStatus('<%= work._id %>', 'complete')">
-                      Mark Done
-                    </button>
-
-                    <% } else { %>
-                      <span class="badge pending">Pending</span>
-                      <button class="btn btn-complete" onclick="updateStatus('<%= work._id %>', 'complete')">
-                        Mark Done
-                      </button>
-                      <% } %>
-              </div>
-
+            <div class="topbar">
+                <h1>Welcome, <%= user.displayName %> 👋</h1>
+                <div class="profile">
+                    <img src="<%= user.photos?.[0]?.value || 'https://via.placeholder.com/40' %>">
+                </div>
             </div>
 
-            <% }) %>
-        </div>
+            <% if(totalKT> 0){ %>
+                <div class="alert">
+                    ⚠ You currently have <strong>
+                        <%= totalKT %>
+                    </strong> active KT subjects.
+                </div>
+                <% } %>
 
-        <% } %>
-        <div class="section-title">📚 Your Courses</div>
+                    <!-- Academic Overview -->
+                    <div class="grid">
 
-<div class="summary">
+                        <div class="card">
+                            <h3>CGPA</h3>
+                            <p class="counter" data-target="<%= cgpa || 0 %>">0</p>
+                        </div>
 
-<% courses.forEach(course => { %>
+                        <div class="card">
+                            <h3>Latest SGPA</h3>
+                            <p class="counter" data-target="<%= latestSGPA || 0 %>">0</p>
+                        </div>
 
-  <div class="card" style="cursor:pointer;">
-    <h3><%= course.name %></h3>
-    <p style="font-size:14px;color:#64748b;">
-      <%= course.section || "No Section" %>
-    </p>
+                        <div class="card">
+                            <h3>Total KT</h3>
+                            <p class="counter" data-target="<%= totalKT %>">0</p>
+                        </div>
 
-    <a href="https://classroom.google.com/c/<%= course.id %>"
-       target="_blank"
-       style="font-size:12px;color:#2563eb;text-decoration:none;">
-       Open in Classroom →
-    </a>
-  </div>
+                    </div>
 
-<% }) %>
+                    <!-- Productivity -->
+                    <div class="grid">
 
-</div>
+                        <div class="card">
+                            <h3>Total Tasks</h3>
+                            <p class="counter" data-target="<%= total %>">0</p>
+                        </div>
 
-  </div>
-  <script>
+                        <div class="card">
+                            <h3>Completed</h3>
+                            <p class="counter" data-target="<%= completed %>">0</p>
+                        </div>
 
-    document.addEventListener("DOMContentLoaded", () => {
-      const text = document.querySelector(".progressText");
-      if (text) {
-        const value = parseInt(text.innerText);
-        document.querySelector(".progress-bar").style.width = value + "%";
-      }
-    });
+                        <div class="card">
+                            <h3>Pending</h3>
+                            <p class="counter" data-target="<%= pending %>">0</p>
+                        </div>
 
+                        <div class="card">
+                            <h3>Productivity</h3>
+                            <p>
+                                <%= progress %>%
+                            </p>
+                            <div class="progress-wrap">
+                                <div class="progress-bar" id="progressBar"></div>
+                            </div>
+                        </div>
 
-    async function updateStatus(id, action) {
-  try {
-    const res = await fetch(`/assignments/${id}/${action}`, {
-      method: "POST"
-    });
+                    </div>
 
-    const data = await res.json();
+                    <!-- Quick Actions -->
+                    <div class="actions">
+                        <a href="/assignments">📋 View Assignments</a>
+                        <a href="/courses">📚 View Courses</a>
+                        <a href="/results">📊 View Results</a>
+                    </div>
 
-    if (data.success) {
-      const row = document.querySelector(`[data-id="${id}"]`);
-      if(row){
-        row.remove();
-      }
-    }
-  } catch (err) {
-    console.error(err);
-  }
-}
-  </script>
+     </div>
+    </div>
+
+    <script>
+
+        /* Animated Counters */
+        document.querySelectorAll(".counter").forEach(counter => {
+            const target = +counter.dataset.target;
+            let count = 0;
+            const speed = target / 30;
+
+            const update = () => {
+                if (count < target) {
+                    count += speed;
+                    counter.innerText = Math.floor(count);
+                    requestAnimationFrame(update);
+                } else {
+                    counter.innerText = target;
+                }
+            };
+
+            update();
+        });
+
+        /* Animate Progress Bar */
+        document.addEventListener("DOMContentLoaded", () => {
+            const progress = <%= progress %>;
+            document.getElementById("progressBar").style.width = progress + "%";
+        });
+
+    </script>
+
 </body>
 
 </html>
