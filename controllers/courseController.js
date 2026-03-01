@@ -1,24 +1,39 @@
 const Assignment = require("../models/assignment");
+const { google } = require("googleapis");
 
 exports.getAllCourses = async (req, res) => {
   try {
 
+    // 🔹 Setup Google OAuth
+    const oauth2Client = new google.auth.OAuth2();
+    oauth2Client.setCredentials({
+      access_token: req.user.accessToken
+    });
+
+    const classroom = google.classroom({
+      version: "v1",
+      auth: oauth2Client
+    });
+
+    // 🔹 Fetch courses from Google
+    const coursesRes = await classroom.courses.list({
+      pageSize: 100,
+      courseStates: ["ACTIVE"]
+    });
+
+    const googleCourses = coursesRes.data.courses || [];
+
+    // 🔹 Fetch assignments from DB
     const assignments = await Assignment.find({
       userId: req.user.id
     });
 
-    const coursesMap = {};
+    // 🔹 Merge data
+    const courses = googleCourses.map(course => {
 
-    assignments.forEach(a => {
-      if (!coursesMap[a.courseName]) {
-        coursesMap[a.courseName] = [];
-      }
-      coursesMap[a.courseName].push(a);
-    });
-
-    const courses = Object.keys(coursesMap).map(name => {
-
-      const related = coursesMap[name];
+      const related = assignments.filter(
+        a => a.courseName === course.name
+      );
 
       const total = related.length;
       const pending = related.filter(a => a.status === "pending").length;
@@ -28,14 +43,18 @@ exports.getAllCourses = async (req, res) => {
         : 0;
 
       return {
-        name,
+        id: course.id,
+        name: course.name,
+        section: course.section,
+        backgroundColor: course.backgroundColor,
+        alternateLink: course.alternateLink,
         total,
         pending,
         completed,
         progress
       };
     });
-console.log(courses[0]);
+
     res.render("allCourses", {
       user: req.user,
       courses
