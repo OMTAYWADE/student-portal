@@ -63,6 +63,7 @@ exports.getDashboard = async (req, res) => {
 
     res.render("dashboard", {
       user: req.user,
+      title: "Dashboard",
       assignments,
       totalKT,
       cgpa,
