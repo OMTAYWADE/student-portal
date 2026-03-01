@@ -38,14 +38,36 @@ exports.getDashboard = async (req, res) => {
     const assignments =
       await Assignment.find({ userId: req.user.id });
 
-    const result =
-      await Result.findOne({ userId: req.user.id });
-    let totalKT = result ? result.totalKT : 0;
+    const result =await Result.findOne({ userId: req.user.id });
+
+    let cgpa = 0;
+    let totalKT = 0;
+    let latestSGPA = 0;
+
+    if (result) {
+      cgpa = result.cgpa;
+      totalKT = result.totalKT;
+      latestSGPA = result.semesters.length
+        ? result.semesters[result.semesters.length - 1].sgpa
+        : 0;
+    }
+
+    // 📊 PRODUCTIVITY STATS
+    const total = assignments.length;
+    const pending = assignments.filter(a => a.status === 'pending').length;
+    const completed = assignments.filter(a => a.status === 'completed').length;
+    const overdue = assignments.filter(a => a.overdue).length;
+    const progress = total
+      ? Math.round((completed / total) * 100)
+      : 0;
 
     res.render("dashboard", {
       user: req.user,
       assignments,
       totalKT,
+      cgpa,
+      latestSGPA,
+      stats: { total, pending, completed, overdue, progress },
       result
     });
 
