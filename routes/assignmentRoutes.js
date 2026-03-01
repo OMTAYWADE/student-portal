@@ -4,21 +4,7 @@ const { isLoggedIn } = require("../middleware/authMiddleware");
 const assignmentController = require("../controllers/assignmentController");
 const Assignment = require("../models/assignment");
 
-router.get("/assignments", isLoggedIn, async (req, res) => {
-
-  const filter = { userId: req.user.id };
-
-  if (req.query.course) {
-    filter.courseName = req.query.course;
-  }
-
-  const assignments = await Assignment.find(filter);
-
-  res.render("assignments", {
-    user: req.user,
-    assignments
-  });
-});
+router.get("/assignments", isLoggedIn, assignmentController.getAssignments);
 // Complete assignment
 router.post(
   "/assignments/:id/complete",
