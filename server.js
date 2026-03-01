@@ -14,7 +14,6 @@ const resultRoutes = require("./routes/resultRoutes");
 const assignmentRoutes = require("./routes/assignmentRoutes");
 const noteRoutes = require("./routes/noteRoutes");
 const expressLayouts = require("express-ejs-layouts");
-app.use(expressLayouts);
 
 const app = express();
 
@@ -30,6 +29,7 @@ app.set("view engine", "ejs");
 app.use(express.static(path.join(__dirname, "public")));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(expressLayouts);
 app.set("layout", "layouts/main");
 
 /* =========================
