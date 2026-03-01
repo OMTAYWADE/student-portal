@@ -1,15 +1,27 @@
 const Result = require("../models/result");
 const fs = require("fs");
 const pdfParse = require("pdf-parse");
+const { parseResult } = require("../services/resultServices");
 
-const {parseResult } = require("../services/resultServices");
+exports.getResults = async (req, res, next) => {
+  try {
+    const result = await Result.findOne({ userId: req.user.id });
 
-exports.uploadResult = async (req, res) => {
+    res.render("results", {
+      result: result || null
+    });
+
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.uploadResult = async (req, res, next) => {
   try {
     const dataBuffer = fs.readFileSync(req.file.path);
     const pdfData = await pdfParse(dataBuffer);
 
-    const parsed = parseResult(pdfData.text); // 👈 service call
+    const parsed = parseResult(pdfData.text);
 
     await Result.findOneAndUpdate(
       { userId: req.user.id },
@@ -20,8 +32,8 @@ exports.uploadResult = async (req, res) => {
     fs.unlinkSync(req.file.path);
 
     res.redirect("/results");
+
   } catch (err) {
-    console.error(err);
-    res.send("Result upload failed");
+    next(err);
   }
 };
