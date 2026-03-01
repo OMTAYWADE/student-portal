@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Years</title>
+    <link rel="stylesheet" href="./unstyle.css">
+</head>
+<body>
+    <div class="container">
+<h1>📚 Select Year</h1>
+
+<div class="grid">
+<% years.forEach((year,i)=>{ %>
+  <a href="/notes/<%= year %>" class="card bg<%= (i%5)+1 %>">
+    🎓 <%= year %>
+  </a>
+<% }) %>
+</div>
+</div>
+</body>
+</html>

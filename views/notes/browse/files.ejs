@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Files</title>
+    <link rel="stylesheet" href="./unstyle.css">
+</head>
+<body>
+    <div class="container">
+<h1><%= module %> - Notes</h1>
+
+<div class="breadcrumb">
+Notes > <%= year %> > <%= branch %> > <%= semester %> > 
+<%= subject %> > <%= module %>
+</div>
+
+<div class="grid">
+<% notes.forEach(note => { %>
+  <div class="file-card">
+    <h3><%= note.title %></h3>
+    <p style="font-size:13px;color:#64748b;">
+      Uploaded: <%= new Date(note.createdAt).toLocaleDateString() %>
+    </p>
+    <a href="/<%= note.fileUrl %>" target="_blank" class="btn">
+      📥 Download
+    </a>
+  </div>
+<% }) %>
+</div>
+</div>
+</body>
+</html>

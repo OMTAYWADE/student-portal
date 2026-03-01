@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Subjects</title>
+    <link rel="stylesheet" href="./unstyle.css">
+</head>
+<body>
+    <div class="container">
+<h1><%= branch %> - Semester <%= semester %></h1>
+
+<div class="breadcrumb">
+Notes > <%= year %> > <%= branch %> > <%= semester %>
+</div>
+
+<div class="grid">
+<% subjects.forEach((subject,i)=>{ %>
+  <a href="/notes/<%= year %>/<%= branch %>/<%= semester %>/<%= subject %>" 
+     class="card bg<%= (i%5)+1 %>">
+     📖 <%= subject %>
+  </a>
+<% }) %>
+</div>
+</div>
+</body>
+</html>

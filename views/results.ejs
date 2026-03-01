@@ -6,85 +6,126 @@
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
 body{
   font-family:'Inter',sans-serif;
-  background:#f4f6fb;
+  background:linear-gradient(135deg,#e0f2fe,#f1f5f9);
   min-height:100vh;
   color:#1e293b;
 }
+
 .container{
-  max-width:1100px;
+  max-width:1200px;
   margin:auto;
-  padding:50px 20px;
+  padding:60px 20px;
 }
 
 h1{
-  font-size:28px;
-  margin-bottom:30px;
+  font-size:32px;
+  margin-bottom:40px;
+  font-weight:700;
 }
 
+/* Glass Card */
 .card{
-  background:white;
-  border-radius:18px;
-  padding:30px;
-  box-shadow:0 15px 35px rgba(0,0,0,0.05);
-  margin-bottom:30px;
+  background:rgba(255,255,255,0.8);
+  backdrop-filter:blur(10px);
+  border-radius:20px;
+  padding:35px;
+  box-shadow:0 20px 40px rgba(0,0,0,0.06);
+  margin-bottom:40px;
+  transition:0.3s;
+}
+
+.card:hover{
+  transform:translateY(-5px);
 }
 
 .overview{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-  gap:20px;
+  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+  gap:25px;
 }
 
 .overview-box{
-  background:#f8fafc;
-  padding:20px;
-  border-radius:12px;
+  padding:25px;
+  border-radius:16px;
+  color:white;
+  position:relative;
+  overflow:hidden;
+}
+
+.overview-box::after{
+  content:"";
+  position:absolute;
+  top:-40px;
+  right:-40px;
+  width:120px;
+  height:120px;
+  background:rgba(255,255,255,0.2);
+  border-radius:50%;
 }
 
 .overview-box h3{
   font-size:13px;
-  color:#64748b;
+  opacity:0.8;
   margin-bottom:8px;
 }
 
 .overview-box p{
-  font-size:22px;
-  font-weight:600;
+  font-size:26px;
+  font-weight:700;
 }
+
+/* Dynamic Colors */
+.cgpa-high{background:linear-gradient(135deg,#16a34a,#22c55e);}
+.cgpa-good{background:linear-gradient(135deg,#2563eb,#3b82f6);}
+.cgpa-avg{background:linear-gradient(135deg,#7c3aed,#a855f7);}
+.cgpa-low{background:linear-gradient(135deg,#ea580c,#f97316);}
 
 .kt-alert{
-  background:#fee2e2;
-  color:#b91c1c;
-  padding:15px;
-  border-radius:12px;
-  margin-top:20px;
+  background:linear-gradient(135deg,#fee2e2,#fecaca);
+  color:#991b1b;
+  padding:20px;
+  border-radius:14px;
+  margin-top:25px;
+  font-weight:500;
 }
 
+/* Semester Cards */
 .semester{
-  margin-top:40px;
+  margin-top:50px;
 }
 
+.semester h2{
+  margin-bottom:20px;
+}
+
+/* Subjects */
 .subject-row{
   display:grid;
   grid-template-columns:2fr 1fr 1fr 1fr 1fr;
-  padding:15px;
+  padding:18px;
   border-bottom:1px solid #f1f5f9;
   font-size:14px;
+  transition:0.2s;
+}
+
+.subject-row:hover{
+  background:#f8fafc;
+  border-radius:10px;
 }
 
 .subject-row.header{
   font-weight:600;
-  background:#f8fafc;
+  background:#f1f5f9;
+  border-radius:10px;
 }
 
 .badge{
-  padding:4px 10px;
+  padding:5px 12px;
   border-radius:20px;
   font-size:11px;
-  font-weight:500;
+  font-weight:600;
 }
 
 .pass{
@@ -97,27 +138,35 @@ h1{
   color:#b91c1c;
 }
 
+/* Upload Box */
 .upload-box{
   text-align:center;
-  padding:40px;
+  padding:50px;
   border:2px dashed #cbd5e1;
-  border-radius:18px;
+  border-radius:20px;
+  background:white;
 }
 
 .btn{
   margin-top:15px;
-  padding:8px 14px;
+  padding:10px 18px;
   border:none;
-  border-radius:8px;
-  background:#6366f1;
+  border-radius:10px;
+  background:linear-gradient(135deg,#6366f1,#4f46e5);
   color:white;
   cursor:pointer;
+  font-weight:600;
+  transition:0.2s;
+}
+
+.btn:hover{
+  transform:scale(1.05);
 }
 
 @media(max-width:700px){
   .subject-row{
     grid-template-columns:1fr;
-    gap:6px;
+    gap:8px;
   }
 }
 </style>
@@ -143,8 +192,26 @@ h1{
 
 <div class="card">
   <div class="overview">
+    <div style="margin-top:25px;font-size:16px;font-weight:500;">
+<% if(result.cgpa >= 9){ %>
+  🌟 Outstanding performance! Keep dominating.
+<% } else if(result.cgpa >= 8){ %>
+  🚀 Strong academic performance. Great job!
+<% } else if(result.cgpa >= 7){ %>
+  👍 Good performance. Aim higher next semester.
+<% } else { %>
+  ⚠ Focus required. Let’s improve next semester.
+<% } %>
+</div>
 
-    <div class="overview-box">
+    <%
+let cgpaClass = "cgpa-low";
+if(result.cgpa >= 9) cgpaClass = "cgpa-high";
+else if(result.cgpa >= 8) cgpaClass = "cgpa-good";
+else if(result.cgpa >= 7) cgpaClass = "cgpa-avg";
+%>
+
+<div class="overview-box <%= cgpaClass %>">
       <h3>CGPA</h3>
       <p><%= result.cgpa %></p>
     </div>

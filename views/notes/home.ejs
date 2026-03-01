@@ -1,0 +1,11 @@
+<h1>📚 Notes Hub</h1>
+
+<h2>🔥 Popular Notes</h2>
+<div class="grid">
+  <% popular.forEach(note=>{ %>
+    <div class="card">
+      <h3><%= note.title %></h3>
+      <a href="/<%= note.fileUrl %>">Download</a>
+    </div>
+  <% }) %>
+</div>
