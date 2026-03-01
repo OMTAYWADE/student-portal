@@ -15,14 +15,14 @@ const semesterSchema = new mongoose.Schema({
 });
 
 const resultSchema = new mongoose.Schema({
-  userId: String,
+  userId: {
+    type: String,
+    required: true,
+    unique: true
+  },
   cgpa: Number,
   totalKT: Number,
-  semesters: [semesterSchema],
-  uploadedAt: {
-    type: Date,
-    default: Date.now
-  }
-});
+  semesters: [semesterSchema]
+}, { timestamps: true });
 
 module.exports = mongoose.model("Result", resultSchema);

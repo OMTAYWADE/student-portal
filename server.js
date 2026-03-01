@@ -1,4 +1,3 @@
-// git test 999
 require('dotenv').config(); // MUST BE FIRST
 
 const express = require('express');
@@ -22,6 +21,7 @@ mongoose.connect(process.env.MONGO_URI)
 const multer = require("multer");
 const pdfParse = require("pdf-parse");
 const fs = require("fs");
+
 const Result = require("./models/result");
 
 const upload = multer({ dest: "uploads/" });
@@ -32,19 +32,44 @@ app.use(express.json()); // ADD THIS near top (after static)
 
 // Razorpay
 const razorpay = new Razorpay({
-    key_id: process.env.RAZORPAY_KEY_ID,
-    key_secret: process.env.RAZORPAY_KEY_SECRET
+  key_id: process.env.RAZORPAY_KEY_ID,
+  key_secret: process.env.RAZORPAY_KEY_SECRET
 });
 
 // Session
 app.use(session({
-    secret: process.env.SESSION_SECRET || "campus-secret",
-    resave: false,
-    saveUninitialized: false
+  secret: process.env.SESSION_SECRET || "campus-secret",
+  resave: false,
+  saveUninitialized: false
+}));
+
+const connectDB = require("./config/db");
+const passport = require("./config/passport");
+
+const authRoutes = require("./routes/authRoutes");
+const dashboardRoutes = require("./routes/dashboardRoutes");
+const courseRoutes = require("./routes/courseRoutes");
+const resultRoutes = require("./routes/resultRoutes");
+const assignmentRoutes = require("./routes/assignmentRoutes");
+
+const dashboardRoutes = require("./routes/dashboardRoutes");
+
+
+connectDB();
+
+app.set("view engine", "ejs");
+app.use(express.static(path.join(__dirname, "public")));
+app.use(express.json());
+
+app.use(session({
+  secret: process.env.SESSION_SECRET,
+  resave: false,
+  saveUninitialized: false
 }));
 
 app.use(passport.initialize());
 app.use(passport.session());
+
 
 // Passport serialize
 passport.serializeUser((user, done) => done(null, user));
@@ -52,348 +77,474 @@ passport.deserializeUser((user, done) => done(null, user));
 
 // Google Strategy
 passport.use(new GoogleStrategy({
-    clientID: process.env.GOOGLE_CLIENT_ID,
-    clientSecret: process.env.GOOGLE_CLIENT_SECRET,
-    callbackURL: "https://student-portal-ui03.onrender.com/auth/google/callback"
+  clientID: process.env.GOOGLE_CLIENT_ID,
+  clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+  callbackURL: "https://student-portal-ui03.onrender.com/auth/google/callback"
 },
-    (accessToken, refreshToken, profile, done) => {
-        profile.accessToken = accessToken;
-        return done(null, profile);
-    }));
+  (accessToken, refreshToken, profile, done) => {
+    profile.accessToken = accessToken;
+    return done(null, profile);
+  }));
 
 // Auth Routes
 app.get('/auth/google',
-    passport.authenticate('google', {
-        scope: [
-            'profile',
-            'email',
-            'https://www.googleapis.com/auth/classroom.courses.readonly',
-            'https://www.googleapis.com/auth/classroom.coursework.me.readonly',
-            'https://www.googleapis.com/auth/classroom.coursework.students.readonly',
-            'https://www.googleapis.com/auth/classroom.announcements.readonly'
-        ]
-    })
+  passport.authenticate('google', {
+    scope: [
+      'profile',
+      'email',
+      'https://www.googleapis.com/auth/classroom.courses.readonly',
+      'https://www.googleapis.com/auth/classroom.coursework.me.readonly',
+      'https://www.googleapis.com/auth/classroom.coursework.students.readonly',
+      'https://www.googleapis.com/auth/classroom.announcements.readonly'
+    ]
+  })
 );
 
 app.get('/auth/google/callback',
-    passport.authenticate('google', { failureRedirect: '/' }),
-    (req, res) => res.redirect('/dashboard')
+  passport.authenticate('google', { failureRedirect: '/' }),
+  (req, res) => res.redirect('/dashboard')
 );
 
 // Middleware
 function isLoggedIn(req, res, next) {
-    if (req.isAuthenticated()) return next();
-    res.redirect('/');
+  if (req.isAuthenticated()) return next();
+  res.redirect('/');
 }
 
 // Home
 app.get('/', (req, res) => {
-    res.render('index', { user: req.user });
+  res.render('index', { user: req.user });
 });
 
 app.get('/logout', (req, res) => {
-    req.logout(() => {
-        res.redirect('/');
-    });
+  req.logout(() => {
+    res.redirect('/');
+  });
 });
 
 app.get('/busform', (req, res) => {
-    res.render('busform', {
-        user: req.user,
-        razorpayKey: process.env.RAZORPAY_KEY_ID
-    });
+  res.render('busform', {
+    user: req.user,
+    razorpayKey: process.env.RAZORPAY_KEY_ID
+  });
 });
 
 app.post("/create-order", async (req, res) => {
-    try {
-        const options = {
-            amount: 500, // 500 paise = ₹5
-            currency: "INR",
-            receipt: "receipt_order_1"
-        };
+  try {
+    const options = {
+      amount: 500, // 500 paise = ₹5
+      currency: "INR",
+      receipt: "receipt_order_1"
+    };
 
-        const order = await razorpay.orders.create(options);
-        res.json(order);
+    const order = await razorpay.orders.create(options);
+    res.json(order);
 
-    } catch (error) {
-        console.log(error);
-        res.status(500).send("Error creating order");
-    }
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Error creating order");
+  }
 });
 
 //Dashboard
-app.get("/dashboard", isLoggedIn, async (req, res) => {
+// app.get("/dashboard", isLoggedIn, async (req, res) => {
+//   try {
 
-  const assignments = await Assignment.find({ userId: req.user.id });
-  const result = await Result.findOne({ userId: req.user.id });
+//     const oauth2Client = new google.auth.OAuth2();
+//     oauth2Client.setCredentials({
+//       access_token: req.user.accessToken
+//     });
 
-  const total = assignments.length;
-  const completed = assignments.filter(a => a.status === "completed").length;
-  const pending = assignments.filter(a => a.status === "pending").length;
-  const progress = total ? Math.round((completed / total) * 100) : 0;
+//     const classroom = google.classroom({
+//       version: 'v1',
+//       auth: oauth2Client
+//     });
 
-  let cgpa = 0;
-  let totalKT = 0;
-  let latestSGPA = 0;
+//     const coursesRes = await classroom.courses.list();
+//     const courses = coursesRes.data.courses || [];
 
-  if(result){
-    cgpa = result.cgpa;
-    totalKT = result.totalKT;
-    latestSGPA = result.semesters.length
-      ? result.semesters[result.semesters.length - 1].sgpa
-      : 0;
-  }
+//     // 🔁 LOOP THROUGH ALL COURSES
+//     for (let course of courses) {
 
-  res.render("dashboard", {
-    user: req.user,
-    total,
-    completed,
-    pending,
-    progress,
-    cgpa,
-    totalKT,
-    latestSGPA
-  });
-});
+//       const workRes = await classroom.courses.courseWork.list({
+//         courseId: course.id
+//       });
 
-// Assignment notifications 
-app.get('/assignNotification', isLoggedIn, async (req, res) => {
-  try {
+//       const works = workRes.data.courseWork || [];
 
-    const oauth2Client = new google.auth.OAuth2();
-    oauth2Client.setCredentials({
-      access_token: req.user.accessToken
-    });
+//       for (let work of works) {
 
-    const classroom = google.classroom({
-      version: 'v1',
-      auth: oauth2Client
-    });
+//         const dueDate = work.dueDate
+//           ? new Date(
+//             work.dueDate.year,
+//             work.dueDate.month - 1,
+//             work.dueDate.day
+//           )
+//           : null;
 
-    const coursesRes = await classroom.courses.list();
-    const courses = coursesRes.data.courses || [];
+//         const exists = await Assignment.findOne({
+//           googleId: work.id,
+//           userId: req.user.id
+//         });
 
-    // 🔁 LOOP THROUGH ALL COURSES
-    for (let course of courses) {
+//         if (!exists) {
+//           await Assignment.create({
+//             googleId: work.id,
+//             userId: req.user.id,
+//             title: work.title,
+//             courseName: course.name,
+//             alternateLink: work.alternateLink,
+//             dueDate
+//           });
+//         }
+//       }
+//     }
 
-      const workRes = await classroom.courses.courseWork.list({
-        courseId: course.id
-      });
+//     // 📦 FETCH FROM DATABASE
+//     let assignments = await Assignment.find({
+//       userId: req.user.id
+//     });
 
-      const works = workRes.data.courseWork || [];
+//     const today = new Date();
 
-      for (let work of works) {
+//     assignments = assignments.map(a => {
+//       const overdue =
+//         a.dueDate &&
+//         a.status === 'pending' &&
+//         a.dueDate < today;
 
-        const dueDate = work.dueDate
-          ? new Date(
-              work.dueDate.year,
-              work.dueDate.month - 1,
-              work.dueDate.day
-            )
-          : null;
+//       return {
+//         ...a.toObject(),
+//         overdue
+//       };
+//     });
+//     const result = await Result.findOne({ userId: req.user.id });
 
-        const exists = await Assignment.findOne({
-          googleId: work.id,
-          userId: req.user.id
-        });
+//     let cgpa = 0;
+//     let totalKT = 0;
+//     let latestSGPA = 0;
 
-        if (!exists) {
-          await Assignment.create({
-            googleId: work.id,
-            userId: req.user.id,
-            title: work.title,
-              courseName: course.name,
-            alternateLink: work.alternateLink,
-            dueDate
-          });
-        }
-      }
-    }
+//     if (result) {
+//       cgpa = result.cgpa;
+//       totalKT = result.totalKT;
+//       latestSGPA = result.semesters.length
+//         ? result.semesters[result.semesters.length - 1].sgpa
+//         : 0;
+//     }
 
-    // 📦 FETCH FROM DATABASE
-    let assignments = await Assignment.find({
-      userId: req.user.id
-    });
+//     // 📊 PRODUCTIVITY STATS
+//     const total = assignments.length;
+//     const pending = assignments.filter(a => a.status === 'pending').length;
+//     const completed = assignments.filter(a => a.status === 'completed').length;
+//     const overdue = assignments.filter(a => a.overdue).length;
+//     const progress = total
+//       ? Math.round((completed / total) * 100)
+//       : 0;
 
-    const today = new Date();
 
-    assignments = assignments.map(a => {
-      const overdue =
-        a.dueDate &&
-        a.status === 'pending' &&
-        a.dueDate < today;
 
-      return {
-        ...a.toObject(),
-        overdue
-      };
-    });
+//     res.render("dashboard", {
+//       courses: courses || [],
+//       assignments: assignments || [],
+//       total: total || 0,
+//       pending: pending || 0,
+//       completed: completed || 0,
+//       overdue: overdue || 0,
+//       progress: progress || 0,
+//       totalKT: totalKT || 0
+//     });
 
-    // 📊 PRODUCTIVITY STATS
-    const total = assignments.length;
-    const pending = assignments.filter(a => a.status === 'pending').length;
-    const completed = assignments.filter(a => a.status === 'completed').length;
-    const overdue = assignments.filter(a => a.overdue).length;
-    const progress = total
-      ? Math.round((completed / total) * 100)
-      : 0;
+//   } catch (err) {
+//     console.error(err);
 
-    res.render('dashboard', {
-      user: req.user,
-      courses,
-      assignments,
-      total,
-      pending,
-      completed,
-      overdue,
-      progress
-    });
+//     if (err.code === 401) {
+//       return res.redirect('/auth/google');
+//     }
 
-  } catch (err) {
-    console.error(err);
+//     res.send("Error loading dashboard");
+//   }
+// });
+app.use("/", dashboardRoutes);
 
-    if (err.code === 401) {
-      return res.redirect('/auth/google');
-    }
 
-    res.send("Error loading dashboard");
-  }
-});
 
-app.post('/assignments/:id/complete', async (req, res) => {
-  await Assignment.findByIdAndUpdate(req.params.id, {
-    status: 'completed',
-    completedAt: new Date()
-  });
-    res.json({ success: true });
-});
+// Assignment notifications
+// app.get('/assignNotification', isLoggedIn, async (req, res) => {
+//   try {
 
-app.post('/assignments/:id/undo', async (req, res) => {
-  await Assignment.findByIdAndUpdate(req.params.id, {
-    status: 'pending',
-    completedAt: null
-  });
+//     const oauth2Client = new google.auth.OAuth2();
+//     oauth2Client.setCredentials({
+//       access_token: req.user.accessToken
+//     });
 
-  res.json({ success: true });
-});        
+//     const classroom = google.classroom({
+//       version: 'v1',
+//       auth: oauth2Client
+//     });
+
+//     const coursesRes = await classroom.courses.list();
+//     const courses = coursesRes.data.courses || [];
+
+//     // 🔁 LOOP THROUGH ALL COURSES
+//     for (let course of courses) {
+
+//       const workPromise = courses.map(course => classroom.courses.courseWork.list({courseId: course.id}));
+//       const workRes = await Promise.all(workPromise);
+
+//       const works = workRes.data.courseWork || [];
+
+//       for (let work of works) {
+
+//         const dueDate = work.dueDate
+//           ? new Date(
+//             work.dueDate.year,
+//             work.dueDate.month - 1,
+//             work.dueDate.day
+//           )
+//           : null;
+
+//         const exists = await Assignment.findOne({
+//           googleId: work.id,
+//           userId: req.user.id
+//         });
+
+//         if (!exists) {
+//           await Assignment.create({
+//             googleId: work.id,
+//             userId: req.user.id,
+//             title: work.title,
+//             courseName: course.name,
+//             alternateLink: work.alternateLink,
+//             dueDate
+//           });
+//         }
+//       }
+//     }
+
+//     // 📦 FETCH FROM DATABASE
+//     let assignments = await Assignment.find({
+//       userId: req.user.id
+//     });
+
+//     const today = new Date();
+
+//     assignments = assignments.map(a => {
+//       const overdue =
+//         a.dueDate &&
+//         a.status === 'pending' &&
+//         a.dueDate < today;
+
+//       return {
+//         ...a.toObject(),
+//         overdue
+//       };
+//     });
+
+//     // 📊 PRODUCTIVITY STATS
+//     const total = assignments.length;
+//     const pending = assignments.filter(a => a.status === 'pending').length;
+//     const completed = assignments.filter(a => a.status === 'completed').length;
+//     const overdue = assignments.filter(a => a.overdue).length;
+//     const progress = total
+//       ? Math.round((completed / total) * 100)
+//       : 0;
+
+//     res.render('assignNotification', {
+//       user: req.user,
+//       courses,
+//       assignments,
+//       total,
+//       pending,
+//       completed,
+//       overdue,
+//       progress
+//     });
+
+//   } catch (err) {
+//     console.error(err);
+
+//     if (err.code === 401) {
+//       return res.redirect('/auth/google');
+//     }
+
+//     res.send("Error loading dashboard");
+//   }
+// });
+
+// app.post('/assignments/:id/complete', async (req, res) => {
+//   await Assignment.findByIdAndUpdate(req.params.id, {
+//     status: 'completed',
+//     completedAt: new Date()
+//   });
+//   res.json({ success: true });
+// });
+
+// app.post('/assignments/:id/undo', async (req, res) => {
+//   await Assignment.findByIdAndUpdate(req.params.id, {
+//     status: 'pending',
+//     completedAt: null
+//   });
+
+//   res.json({ success: true });
+// });
 
 // courses page
-app.get("/allcourses", isLoggedIn, (req, res) => {
-    const assignments = Assignment.find({ userId: req.user.id });
-    const coursesWithStats = courses.map(course => {
-        const related = assignments.filter(a => a.courseName === course.name);
+// app.get("/allcourses", isLoggedIn, async (req, res) => {
+//   try {
+//     const oauth2Client = new google.auth.OAuth2();
+//     oauth2Client.setCredentials({
+//       access_token: req.user.accessToken
+//     });
 
-        const total = related.length;
-        const pending = related.filter(a => a.status === 'pending').length;
-        const completed = related.filter(a => a.status === 'completed').length;
-        const progress = total ? Math.round((completed / total) * 100) : 0;
-        
-        return {
-            ...course,
-            total,
-            pending,
-            completed,
-            progress
-        };
-    });
-    res.render("allCourses", {
-        user: req.user,
-        courses: coursesWithStats
-    });
-});
+//     const classroom = google.classroom({
+//       version: "v1",
+//       auth: oauth2Client
+//     });
+
+//     const coursesRes = await classroom.courses.list();
+//     const courses = coursesRes.data.courses || [];
+
+//     const assignments = await Assignment.find({
+//       userId: req.user.id
+//     });
+
+//     const coursesWithStats = courses.map(course => {
+//       const related = assignments.filter(
+//         a => a.courseName === course.name
+//       );
+
+//       const total = related.length;
+//       const pending = related.filter(a => a.status === "pending").length;
+//       const completed = related.filter(a => a.status === "completed").length;
+//       const progress = total
+//         ? Math.round((completed / total) * 100)
+//         : 0;
+
+//       return {
+//         ...course,
+//         total,
+//         pending,
+//         completed,
+//         progress
+//       };
+//     });
+
+//     res.render("allCourses", {
+//       user: req.user,
+//       courses: coursesWithStats
+//     });
+
+//   } catch (err) {
+//     console.error(err);
+//     res.send("Error loading courses");
+//   }
+// });
+
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+app.use("/", authRoutes);
+app.use("/", dashboardRoutes);
+app.use("/", courseRoutes);
+app.use("/", resultRoutes);
+app.use("/", assignmentRoutes);
+
+app.get("/privacy", (req, res) => res.render("privacy"));
+app.get("/terms", (req, res) => res.render("terms"));
 
 /* =======================
    RESULTS PAGE
 ======================= */
 
-app.get("/results", isLoggedIn, async (req, res) => {
+// app.get("/results", isLoggedIn, async (req, res) => {
 
-  const result = await Result.findOne({ userId: req.user.id });
+//   const result = await Result.findOne({ userId: req.user.id });
 
-  if (!result) {
-    return res.render("results", {
-      result: null
-    });
-  }
+//   if (!result) {
+//     return res.render("results", {
+//       result: null
+//     });
+//   }
 
-  res.render("results", { result });
-});
+//   res.render("results", { result });
+// });
 
 
 /* =======================
    PDF UPLOAD
 ======================= */
 
-app.post("/upload-result", isLoggedIn, upload.single("resultPdf"), async (req, res) => {
+// app.post("/upload-result", isLoggedIn, upload.single("resultPdf"), async (req, res) => {
 
-  const dataBuffer = fs.readFileSync(req.file.path);
-  const pdfData = await pdfParse(dataBuffer);
-  const text = pdfData.text;
+//   const dataBuffer = fs.readFileSync(req.file.path);
+//   const pdfData = await pdfParse(dataBuffer);
+//   const text = pdfData.text;
 
-  // ⚠ Customize this parsing according to your university format
-  const parsed = parseResult(text);
+//   // ⚠ Customize this parsing according to your university format
+//   const parsed = parseResult(text);
 
-  await Result.findOneAndUpdate(
-    { userId: req.user.id },
-    parsed,
-    { upsert: true }
-  );
+//   await Result.findOneAndUpdate(
+//     { userId: req.user.id },
+//     parsed,
+//     { upsert: true }
+//   );
 
-  res.redirect("/results");
-});
+//   res.redirect("/results");
+// });
 
 
 /* =======================
    SIMPLE PARSER EXAMPLE
 ======================= */
 
-function parseResult(text) {
+// function parseResult(text) {
 
-  const sgpaMatch = text.match(/SGPA\s*:\s*(\d+\.\d+)/);
-  const cgpaMatch = text.match(/CGPA\s*:\s*(\d+\.\d+)/);
+//   const sgpaMatch = text.match(/SGPA\s*:\s*(\d+\.\d+)/);
+//   const cgpaMatch = text.match(/CGPA\s*:\s*(\d+\.\d+)/);
 
-  const sgpa = sgpaMatch ? parseFloat(sgpaMatch[1]) : 0;
-  const cgpa = cgpaMatch ? parseFloat(cgpaMatch[1]) : 0;
+//   const sgpa = sgpaMatch ? parseFloat(sgpaMatch[1]) : 0;
+//   const cgpa = cgpaMatch ? parseFloat(cgpaMatch[1]) : 0;
 
-  const subjects = [];
-  const subjectRegex = /([A-Za-z\s]+)\s+(\d+)\s+(\d+)\s+([A-Z])/g;
+//   const subjects = [];
+//   const subjectRegex = /([A-Za-z\s]+)\s+(\d+)\s+(\d+)\s+([A-Z])/g;
 
-  let match;
-  while ((match = subjectRegex.exec(text)) !== null) {
-    subjects.push({
-      name: match[1].trim(),
-      marks: parseInt(match[2]),
-      total: parseInt(match[3]),
-      grade: match[4],
-      kt: match[4] === "F"
-    });
-  }
+//   let match;
+//   while ((match = subjectRegex.exec(text)) !== null) {
+//     subjects.push({
+//       name: match[1].trim(),
+//       marks: parseInt(match[2]),
+//       total: parseInt(match[3]),
+//       grade: match[4],
+//       kt: match[4] === "F"
+//     });
+//   }
 
-  const totalKT = subjects.filter(s => s.kt).length;
+//   const totalKT = subjects.filter(s => s.kt).length;
 
-  return {
-    cgpa,
-    totalKT,
-    semesters: [
-      {
-        semesterNumber: 1,
-        sgpa,
-        subjects
-      }
-    ]
-  };
-}
+//   return {
+//     cgpa,
+//     totalKT,
+//     semesters: [
+//       {
+//         semesterNumber: 1,
+//         sgpa,
+//         subjects
+//       }
+//     ]
+//   };
+// }
 
 
 
 // Private policy and terms
-app.get("/privacy", (req, res) => {
-    res.render("privacy");
-});
+// app.get("/privacy", (req, res) => {
+//   res.render("privacy");
+// });
 
-app.get("/terms", (req, res) => {
-    res.render("terms");
-});
+// app.get("/terms", (req, res) => {
+//   res.render("terms");
+// });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => console.log(`Server running on ${PORT}`));

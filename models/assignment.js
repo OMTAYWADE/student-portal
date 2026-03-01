@@ -1,31 +1,28 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const assignmentSchema = new mongoose.Schema({
   googleId: {
     type: String,
-    required: true
-    },
-    userId: {
+    required: true,
+    index: true
+  },
+  userId: {
     type: String,
-    required: true
-    },
+    required: true,
+    index: true
+  },
   title: String,
   courseName: String,
-    dueDate: Date,
   alternateLink: String,
-
+  dueDate: Date,
   status: {
     type: String,
-    enum: ['pending', 'completed'],
-    default: 'pending'
-    },
-    priority: {
-    type: String,
-    enum: ['low', 'medium', 'high'],
-    default: 'medium'
-    },
-
+    enum: ["pending", "completed"],
+    default: "pending"
+  },
   completedAt: Date
 }, { timestamps: true });
 
-module.exports = mongoose.model('Assignment', assignmentSchema);
+assignmentSchema.index({ googleId: 1, userId: 1 }, { unique: true });
+
+module.exports = mongoose.model("Assignment", assignmentSchema);
