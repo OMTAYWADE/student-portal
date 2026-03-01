@@ -15,11 +15,12 @@ const semesterSchema = new mongoose.Schema({
 });
 
 const resultSchema = new mongoose.Schema({
-  userId: {
-    type: String,
-    required: true,
-    unique: true
-  },
+ userId: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "User",
+  required: true,
+  index: true
+},
   cgpa: Number,
   totalKT: Number,
   semesters: [semesterSchema]

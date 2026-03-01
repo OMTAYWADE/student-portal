@@ -1,7 +1,28 @@
 const Assignment = require("../models/assignment");
 
-exports.syncAssignments = async (courses, workResults, userId) => {
+exports.completeAssignment = async (assignmentId, userId) => {
+  return await Assignment.findOneAndUpdate(
+    { _id: assignmentId, userId },
+    {
+      status: "completed",
+      completedAt: new Date()
+    },
+    { new: true }
+  );
+};
 
+exports.undoAssignment = async (assignmentId, userId) => {
+  return await Assignment.findOneAndUpdate(
+    { _id: assignmentId, userId },
+    {
+      status: "pending",
+      completedAt: null
+    },
+    { new: true }
+  );
+};
+
+exports.syncAssignments = async (courses, workResults, userId) => {
   const existing = await Assignment.find({ userId });
   const existingIds = new Set(existing.map(a => a.googleId));
 
@@ -11,7 +32,6 @@ exports.syncAssignments = async (courses, workResults, userId) => {
     const works = workResults[i].data.courseWork || [];
 
     for (let work of works) {
-
       if (!existingIds.has(work.id)) {
 
         const dueDate = work.dueDate

@@ -19,7 +19,11 @@ router.get("/auth/google",
 // Callback
 router.get("/auth/google/callback",
   passport.authenticate("google", { failureRedirect: "/" }),
-  (req, res) => res.redirect("/dashboard")
+  (req, res) => {
+    const redirectUrl = req.session.redirectTo || "/dashboard";
+    delete req.session.redirectTo;
+    res.redirect(redirectUrl);
+  }
 );
 
 router.get("/", authController.home);

@@ -1,22 +1,20 @@
 const express = require("express");
 const router = express.Router();
-const Assignment = require("../models/assignment");
 const { isLoggedIn } = require("../middleware/authMiddleware");
+const assignmentController = require("../controllers/assignmentController");
 
-router.post("/assignments/:id/complete", isLoggedIn, async (req, res) => {
-  await Assignment.findByIdAndUpdate(req.params.id, {
-    status: "completed",
-    completedAt: new Date()
-  });
-  res.json({ success: true });
-});
+// Complete assignment
+router.post(
+  "/assignments/:id/complete",
+  isLoggedIn,
+  assignmentController.complete
+);
 
-router.post("/assignments/:id/undo", isLoggedIn, async (req, res) => {
-  await Assignment.findByIdAndUpdate(req.params.id, {
-    status: "pending",
-    completedAt: null
-  });
-  res.json({ success: true });
-});
+// Undo assignment
+router.post(
+  "/assignments/:id/undo",
+  isLoggedIn,
+  assignmentController.undo
+);
 
 module.exports = router;

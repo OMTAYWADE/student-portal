@@ -15,12 +15,14 @@ exports.getDashboard = async (req, res) => {
       existingAssignments.map(a => a.googleId)
     );
 
+    const newAssignments = [];
+
     for (let i = 0; i < courses.length; i++) {
       const works = workResults[i].data.courseWork || [];
 
       for (let work of works) {
         if (!existingIds.has(work.id)) {
-          await Assignment.create({
+          newAssignments.push({
             googleId: work.id,
             userId: req.user.id,
             title: work.title,
@@ -28,6 +30,9 @@ exports.getDashboard = async (req, res) => {
           });
         }
       }
+    }
+    if (newAssignments.length > 0) {
+      await Assignment.insertMany(newAssignments);
     }
 
     const assignments =

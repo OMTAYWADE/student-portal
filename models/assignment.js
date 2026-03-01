@@ -6,11 +6,12 @@ const assignmentSchema = new mongoose.Schema({
     required: true,
     index: true
   },
-  userId: {
-    type: String,
-    required: true,
-    index: true
-  },
+userId: {
+  type: mongoose.Schema.Types.ObjectId,
+  ref: "User",
+  required: true,
+  index: true
+},
   title: String,
   courseName: String,
   alternateLink: String,
