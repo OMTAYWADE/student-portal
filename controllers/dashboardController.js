@@ -40,10 +40,12 @@ exports.getDashboard = async (req, res) => {
 
     const result =
       await Result.findOne({ userId: req.user.id });
+    let totalKT = result ? result.totalKT : 0;
 
     res.render("dashboard", {
       user: req.user,
       assignments,
+      totalKT,
       result
     });
 
