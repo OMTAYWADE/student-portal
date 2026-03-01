@@ -10,7 +10,10 @@ exports.fetchCoursesAndWorks = async (accessToken) => {
     auth: oauth2Client
   });
 
-  const coursesRes = await classroom.courses.list();
+  const coursesRes = await classroom.courses.list({
+    pageSize: 100,
+    courseStates: ["ACTIVE", "ARCHIVED"]
+  });
   const courses = coursesRes.data.courses || [];
 
   const workPromises = courses.map(course =>

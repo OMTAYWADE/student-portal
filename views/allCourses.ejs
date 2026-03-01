@@ -1,191 +1,201 @@
 <!DOCTYPE html>
 <html>
+
 <head>
   <title>Campus Assistant | Courses</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <style>
-    *{margin:0;padding:0;box-sizing:border-box}
-
-    body{
-      font-family:'Inter',sans-serif;
-      background:#f4f6fb;
-      min-height:100vh;
-      color:#1e293b;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box
     }
 
-    .container{
-      max-width:1200px;
-      margin:auto;
-      padding:50px 20px;
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f4f6fb;
+      min-height: 100vh;
+      color: #1e293b;
     }
 
-    h1{
-      font-size:28px;
-      font-weight:600;
-      margin-bottom:40px;
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 50px 20px;
     }
 
-    .courses-grid{
-      display:grid;
-      grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-      gap:30px;
+    h1 {
+      font-size: 28px;
+      font-weight: 600;
+      margin-bottom: 40px;
     }
 
-    .course-card{
-      background:white;
-      border-radius:20px;
-      overflow:hidden;
-      box-shadow:0 15px 35px rgba(0,0,0,0.06);
-      transition:transform 0.3s ease, box-shadow 0.3s ease;
-      display:flex;
-      flex-direction:column;
+    .courses-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 30px;
     }
 
-    .course-card:hover{
-      transform:translateY(-8px);
-      box-shadow:0 25px 50px rgba(0,0,0,0.1);
+    .course-card {
+      background: white;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.06);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      display: flex;
+      flex-direction: column;
     }
 
-    .course-header{
-      padding:30px;
-      background:linear-gradient(135deg,#6366f1,#22c55e);
-      color:white;
+    .course-card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 25px 50px rgba(0, 0, 0, 0.1);
     }
 
-    .course-header h3{
-      font-size:20px;
-      margin-bottom:6px;
+    .course-header {
+      padding: 30px;
+      background: linear-gradient(135deg, #6366f1, #22c55e);
+      color: white;
     }
 
-    .course-header p{
-      font-size:14px;
-      opacity:0.9;
+    .course-header h3 {
+      font-size: 20px;
+      margin-bottom: 6px;
     }
 
-    .course-body{
-      padding:25px;
-      flex:1;
-      display:flex;
-      flex-direction:column;
-      justify-content:space-between;
+    .course-header p {
+      font-size: 14px;
+      opacity: 0.9;
     }
 
-    .stats{
-      display:flex;
-      justify-content:space-between;
-      font-size:14px;
-      margin-bottom:20px;
-      color:#475569;
+    .course-body {
+      padding: 25px;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
-    .progress-wrap{
-      height:8px;
-      background:#e2e8f0;
-      border-radius:10px;
-      overflow:hidden;
-      margin-bottom:20px;
+    .stats {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      margin-bottom: 20px;
+      color: #475569;
     }
 
-    .progress-bar{
-      height:8px;
-      background:#22c55e;
-      transition:width 0.6s ease;
+    .progress-wrap {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 20px;
     }
 
-    .actions{
-      display:flex;
-      gap:10px;
+    .progress-bar {
+      height: 8px;
+      background: #22c55e;
+      transition: width 0.6s ease;
     }
 
-    .btn{
-      flex:1;
-      text-align:center;
-      padding:8px;
-      border-radius:10px;
-      text-decoration:none;
-      font-size:13px;
-      font-weight:500;
+    .actions {
+      display: flex;
+      gap: 10px;
     }
 
-    .btn-primary{
-      background:#6366f1;
-      color:white;
+    .btn {
+      flex: 1;
+      text-align: center;
+      padding: 8px;
+      border-radius: 10px;
+      text-decoration: none;
+      font-size: 13px;
+      font-weight: 500;
     }
 
-    .btn-secondary{
-      background:#f1f5f9;
-      color:#1e293b;
+    .btn-primary {
+      background: #6366f1;
+      color: white;
     }
 
-    .btn-primary:hover{
-      background:#4f46e5;
+    .btn-secondary {
+      background: #f1f5f9;
+      color: #1e293b;
     }
 
-    .btn-secondary:hover{
-      background:#e2e8f0;
+    .btn-primary:hover {
+      background: #4f46e5;
     }
 
-    @media(max-width:600px){
-      .container{
-        padding:30px 15px;
+    .btn-secondary:hover {
+      background: #e2e8f0;
+    }
+
+    @media(max-width:600px) {
+      .container {
+        padding: 30px 15px;
       }
     }
-
   </style>
 </head>
 
 <body>
 
-<div class="container">
-  <h1>📚 Your Courses</h1>
+  <div class="container">
+    <h1>📚 Your Courses</h1>
 
-  <div class="courses-grid">
+    <div class="courses-grid">
 
-    <% courses.forEach(course => { %>
+      <% courses.forEach(course=> { %>
 
-      <div class="course-card">
+        <div class="course-card">
 
-        <div class="course-header">
-          <h3><%= course.name %></h3>
-          <p><%= course.section || "No Section" %></p>
-        </div>
-
-        <div class="course-body">
-
-          <div>
-            <div class="stats">
-              <span>📄 <%= course.total %> Tasks</span>
-              <span>⏳ <%= course.pending %> Pending</span>
-              <span>✅ <%= course.completed %> Done</span>
-            </div>
-
-            <div class="progress-wrap">
-              <div class="progress-bar" style="width:<%= course.progress || 0 %>%"></div>
-            </div>
+          <div class="course-header" 
+     style="<%= course.backgroundImageUrl 
+           ? `background:url('${course.backgroundImageUrl}') center/cover;`
+           : `background:${course.backgroundColor || '#6366f1'}` %>">>
+            <h3>
+              <%= course.name %>
+            </h3>
+            <p>
+              <%= course.section || "No Section" %>
+            </p>
           </div>
 
-          <div class="actions">
-            <a href="/assignments?course=<%= course.name %>" class="btn btn-primary">
-              View Tasks
-            </a>
+          <div class="course-body">
 
-            <a href="https://classroom.google.com/c/<%= course.id %>" 
-               target="_blank"
-               class="btn btn-secondary">
-              Open Classroom
-            </a>
+            <div>
+              <div class="stats">
+                <span>📄 <%= course.total %> Tasks</span>
+                <span>⏳ <%= course.pending %> Pending</span>
+                <span>✅ <%= course.completed %> Done</span>
+              </div>
+
+              <div class="progress-wrap">
+                <div class="progress-bar" style="width:<%= course.progress || 0 %>%"></div>
+              </div>
+            </div>
+
+            <div class="actions">
+              <a href="/assignments?course=<%= course.name %>" class="btn btn-primary">
+                View Tasks
+              </a>
+
+              <a href="<%= course.alternateLink %>" target="_blank" class="btn btn-secondary">
+                Open Classroom
+              </a>
+            </div>
+
           </div>
 
         </div>
 
-      </div>
+        <% }) %>
 
-    <% }) %>
-
+    </div>
   </div>
-</div>
 
 </body>
+
 </html>

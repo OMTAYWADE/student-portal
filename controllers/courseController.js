@@ -35,7 +35,7 @@ exports.getAllCourses = async (req, res) => {
         progress
       };
     });
-
+console.log(courses[0]);
     res.render("allCourses", {
       user: req.user,
       courses
