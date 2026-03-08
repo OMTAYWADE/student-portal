@@ -13,7 +13,6 @@ const courseRoutes = require("./routes/courseRoutes");
 const resultRoutes = require("./routes/resultRoutes");
 const assignmentRoutes = require("./routes/assignmentRoutes");
 const noteRoutes = require("./routes/noteRoutes");
-const expressLayouts = require("express-ejs-layouts");
 
 const app = express();
 
@@ -54,6 +53,7 @@ app.use((req,res,next)=>{
   res.locals.user = req.user || null;
   next();
 });
+
 app.use("/", authRoutes);
 app.use("/", dashboardRoutes);
 app.use("/", courseRoutes);
