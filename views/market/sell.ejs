@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Sell Item | Campus Exchange</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+font-family:'Inter',sans-serif;
+background:linear-gradient(135deg,#0f172a,#020617);
+color:white;
+min-height:100vh;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 40px;
+background:rgba(255,255,255,0.05);
+border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.navbar a{
+color:#cbd5f5;
+text-decoration:none;
+font-size:14px;
+}
+
+/* CONTAINER */
+
+.container{
+max-width:800px;
+margin:auto;
+padding:40px 20px;
+}
+
+/* CARD */
+
+.card{
+background:rgba(255,255,255,0.05);
+border-radius:18px;
+padding:30px;
+border:1px solid rgba(255,255,255,0.08);
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+margin-bottom:15px;
+}
+
+/* FIELD */
+
+.field label{
+display:block;
+font-size:13px;
+margin-bottom:5px;
+color:#cbd5f5;
+}
+
+.field input,
+.field select,
+.field textarea{
+
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+background:rgba(255,255,255,0.08);
+color:white;
+}
+
+/* TEXTAREA */
+
+textarea{
+resize:none;
+height:80px;
+}
+
+/* IMAGE UPLOAD */
+
+.upload{
+border:2px dashed rgba(255,255,255,0.2);
+padding:25px;
+text-align:center;
+border-radius:12px;
+cursor:pointer;
+margin-top:10px;
+}
+
+.upload input{
+display:none;
+}
+
+/* BUTTON */
+
+.btn{
+margin-top:20px;
+width:100%;
+padding:14px;
+border:none;
+border-radius:12px;
+background:linear-gradient(135deg,#6366f1,#4f46e5);
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+}
+
+.btn:hover{
+transform:translateY(-2px);
+}
+
+/* NOTE */
+
+.note{
+font-size:12px;
+color:#94a3b8;
+margin-top:8px;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:700px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="navbar">
+
+<h2>Sell Study Item</h2>
+
+<a href="/market">← Marketplace</a>
+
+</div>
+
+<div class="container">
+
+<div class="card">
+
+<form action="/sell-item" method="POST" enctype="multipart/form-data">
+
+<div class="grid">
+
+<div class="field">
+<label>Item Title</label>
+<input name="title" required>
+</div>
+
+<div class="field">
+<label>Category</label>
+<select name="category">
+<option>Books</option>
+<option>Calculator</option>
+<option>Instruments</option>
+<option>Electronics</option>
+</select>
+</div>
+
+<div class="field">
+<label>Condition</label>
+<select name="condition">
+<option>New</option>
+<option>Like New</option>
+<option>Good</option>
+<option>Used</option>
+</select>
+</div>
+
+<div class="field">
+<label>Price (₹)</label>
+<input type="number" name="price" required>
+<div class="note">
+Please keep price affordable for fellow students.
+</div>
+</div>
+
+</div>
+
+<div class="field">
+
+<label>Description</label>
+
+<textarea name="description"></textarea>
+
+</div>
+
+<label class="upload">
+
+📸 Upload Item Images
+
+<input type="file" name="images" multiple required>
+
+</label>
+
+<button class="btn">
+
+Post Item
+
+</button>
+
+</form>
+
+</div>
+
+</div>
+
+</body>
+</html>

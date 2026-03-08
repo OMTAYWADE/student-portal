@@ -81,6 +81,9 @@ currency:"INR"
 res.json(order);
 
 });
+const marketRoutes = require("./routes/marketRoutes");
+
+app.use("/", marketRoutes);
 
 app.get("/privacy", (req, res) => res.render("privacy"));
 app.get("/terms", (req, res) => res.render("terms"));

@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Upload Notes | Campus Assistant</title>
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
+
+body{
+font-family:'Inter',sans-serif;
+background:linear-gradient(135deg,#0f172a,#020617);
+color:white;
+min-height:100vh;
+}
+
+/* NAVBAR */
+
+.navbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 40px;
+background:rgba(255,255,255,0.04);
+backdrop-filter:blur(12px);
+border-bottom:1px solid rgba(255,255,255,0.05);
+}
+
+.navbar h2{
+font-size:18px;
+}
+
+.navbar a{
+color:#cbd5f5;
+text-decoration:none;
+font-size:14px;
+}
+
+/* CONTAINER */
+
+.container{
+max-width:1000px;
+margin:auto;
+padding:40px 20px;
+}
+
+/* TITLE */
+
+.title{
+text-align:center;
+margin-bottom:35px;
+}
+
+.title h1{
+font-size:30px;
+}
+
+.title p{
+color:#94a3b8;
+margin-top:8px;
+}
+
+/* CARD */
+
+.card{
+background:rgba(255,255,255,0.05);
+border-radius:18px;
+padding:30px;
+border:1px solid rgba(255,255,255,0.08);
+}
+
+/* GRID */
+
+.grid{
+display:grid;
+grid-template-columns:1fr 1fr;
+gap:20px;
+margin-bottom:20px;
+}
+
+/* FIELD */
+
+.field label{
+font-size:13px;
+color:#cbd5f5;
+display:block;
+margin-bottom:6px;
+}
+
+.field input,
+.field select{
+width:100%;
+padding:12px;
+border-radius:10px;
+border:none;
+background:rgba(255,255,255,0.08);
+color:white;
+}
+
+/* FILE UPLOAD */
+
+.upload-box{
+border:2px dashed rgba(255,255,255,0.2);
+border-radius:14px;
+padding:30px;
+text-align:center;
+margin-top:10px;
+cursor:pointer;
+}
+
+.upload-box:hover{
+background:rgba(255,255,255,0.05);
+}
+
+.upload-box input{
+display:none;
+}
+
+/* PRICE */
+
+.price-note{
+font-size:12px;
+color:#94a3b8;
+margin-top:5px;
+}
+
+/* BUTTON */
+
+.upload-btn{
+width:100%;
+margin-top:25px;
+padding:14px;
+border:none;
+border-radius:12px;
+background:linear-gradient(135deg,#6366f1,#4f46e5);
+color:white;
+font-weight:600;
+cursor:pointer;
+transition:0.3s;
+}
+
+.upload-btn:hover{
+transform:translateY(-2px);
+box-shadow:0 10px 30px rgba(99,102,241,0.4);
+}
+
+/* PREVIEW */
+
+.preview{
+margin-top:25px;
+font-size:14px;
+color:#cbd5f5;
+}
+
+/* MOBILE */
+
+@media(max-width:768px){
+
+.grid{
+grid-template-columns:1fr;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="navbar">
+
+<h2>🎓 Campus Assistant</h2>
+
+<a href="/notes">← Notes Hub</a>
+
+</div>
+
+<div class="container">
+
+<div class="title">
+
+<h1>📚 Upload Notes</h1>
+
+<p>Share your study material with other students</p>
+
+</div>
+
+<form action="/upload-notes" method="POST" enctype="multipart/form-data">
+
+<div class="card">
+
+<div class="grid">
+
+<div class="field">
+<label>Academic Year</label>
+<select name="year" required>
+<option value="">Select</option>
+<option>2025</option>
+<option>2026</option>
+<option>2027</option>
+</select>
+</div>
+
+<div class="field">
+<label>Engineering Year</label>
+<select name="branch">
+<option>FE</option>
+<option>SE</option>
+<option>TE</option>
+<option>BE</option>
+</select>
+</div>
+
+<div class="field">
+<label>Semester</label>
+<select name="semester">
+<option>Sem 1</option>
+<option>Sem 2</option>
+</select>
+</div>
+
+<div class="field">
+<label>Subject</label>
+<input type="text" name="subject" placeholder="Data Structures">
+</div>
+
+<div class="field">
+<label>Module</label>
+<input type="text" name="module" placeholder="Module 2">
+</div>
+
+<div class="field">
+<label>Session (Optional)</label>
+<input type="text" name="session" placeholder="Mid Sem / End Sem">
+</div>
+
+<div class="field">
+<label>Title</label>
+<input type="text" name="title" placeholder="DS Module 2 Notes">
+</div>
+
+<div class="field">
+<label>Price (₹0 – ₹10)</label>
+<input type="number" name="price" min="0" max="10" value="0">
+<div class="price-note">0 means free notes</div>
+</div>
+
+</div>
+
+<label>Upload PDF</label>
+
+<label class="upload-box">
+
+📄 Click to upload your notes PDF
+
+<input type="file" name="notesPdf" accept="application/pdf" required>
+
+</label>
+
+<button class="upload-btn">
+
+Upload Notes
+
+</button>
+
+<div class="preview" id="previewText">
+
+Your notes will be listed based on year → subject → module automatically.
+
+</div>
+
+</div>
+
+</form>
+
+</div>
+
+<script>
+
+/* price validation */
+
+document.querySelector('input[name="price"]').addEventListener("input",function(){
+
+if(this.value>10){
+
+this.value=10;
+
+alert("Maximum price allowed is ₹10");
+
+}
+
+});
+
+</script>
+
+</body>
+
+</html>

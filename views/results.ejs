@@ -193,19 +193,18 @@ gap:8px;
 <h1>🎓 Academic Results</h1>
 
 <!-- SHOW UPLOAD IF NO RESULT -->
-
-<% if(!result || !result.semesters) { %>
+<% if(!result || !result.semesters || result.semesters.length === 0) { %>
 
 <div class="card upload-box">
 
 <h2>Upload Your Result PDF</h2>
 
 <p style="margin-top:10px;color:#64748b;">
-Upload your Mumbai University result PDF to analyze your performance.
+Upload your Mumbai University result PDF to analyze your academic performance.
 </p>
 
 <% if(error){ %>
-<div class="error">
+<div style="background:#fee2e2;color:#991b1b;padding:12px;border-radius:10px;margin-top:15px;">
 ⚠ <%= error %>
 </div>
 <% } %>
