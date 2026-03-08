@@ -64,7 +64,7 @@ app.use("/", noteRoutes);
 app.get("/privacy", (req, res) => res.render("privacy"));
 app.get("/terms", (req, res) => res.render("terms"));
 
-/* =========================
+/* =========================  
    START SERVER
 ========================= */
 const PORT = process.env.PORT || 3000;
