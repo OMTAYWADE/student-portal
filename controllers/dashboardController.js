@@ -67,6 +67,7 @@ exports.getDashboard = async (req, res) => {
       assignments,
       totalKT,
       cgpa,
+      courses,
       latestSGPA,
       total, pending, completed, overdue, progress,
       result
