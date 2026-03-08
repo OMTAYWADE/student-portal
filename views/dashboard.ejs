@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Campus Assistant | Dashboard</title>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<title>Campus Assistant | Courses</title>
 
-    <style>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<style>
+
 *{
 margin:0;
 padding:0;
@@ -18,42 +20,73 @@ font-family:'Inter',sans-serif;
 background:linear-gradient(135deg,#0f172a,#020617);
 color:#e2e8f0;
 min-height:100vh;
+display:flex;
+flex-direction:column;
 }
 
-/* WRAPPER */
+/* NAVBAR */
+
+.navbar{
+background:#020617;
+padding:16px 40px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+border-bottom:1px solid rgba(255,255,255,0.08);
+}
+
+.logo{
+font-weight:600;
+font-size:18px;
+color:#6366f1;
+}
+
+.nav-links{
+display:flex;
+gap:20px;
+}
+
+.nav-links a{
+color:#94a3b8;
+text-decoration:none;
+font-size:14px;
+transition:0.2s;
+}
+
+.nav-links a:hover{
+color:white;
+}
+
+/* PAGE WRAPPER */
 
 .wrapper{
+flex:1;
 display:flex;
-min-height:100vh;
 }
 
 /* SIDEBAR */
 
 .sidebar{
-width:240px;
+width:230px;
 background:#020617;
 padding:30px 20px;
-display:flex;
-flex-direction:column;
-justify-content:space-between;
 border-right:1px solid rgba(255,255,255,0.05);
-transition:0.3s;
 }
 
 .sidebar h2{
 font-size:18px;
-margin-bottom:30px;
+margin-bottom:25px;
 }
 
 .sidebar a{
 display:block;
-text-decoration:none;
 color:#94a3b8;
-margin-bottom:16px;
-font-size:14px;
-transition:0.3s;
+text-decoration:none;
+margin-bottom:14px;
 padding:8px 10px;
 border-radius:8px;
+transition:0.2s;
+font-size:14px;
 }
 
 .sidebar a:hover{
@@ -68,18 +101,17 @@ flex:1;
 padding:50px;
 }
 
-/* TOPBAR */
+/* HEADER */
 
-.topbar{
+.header{
 display:flex;
 justify-content:space-between;
 align-items:center;
 margin-bottom:40px;
 }
 
-.topbar h1{
+.header h1{
 font-size:26px;
-font-weight:600;
 }
 
 .profile img{
@@ -91,104 +123,123 @@ border:2px solid #6366f1;
 
 /* GRID */
 
-.grid{
+.courses-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
 gap:25px;
-margin-bottom:40px;
 }
 
-/* CARDS */
+/* CARD */
 
-.card{
+.course-card{
 background:#020617;
-padding:28px;
 border-radius:16px;
 border:1px solid rgba(255,255,255,0.05);
-transition:0.3s;
-position:relative;
 overflow:hidden;
+transition:0.3s;
 }
 
-.card::before{
-content:"";
-position:absolute;
-inset:0;
-background:linear-gradient(120deg,transparent,rgba(99,102,241,0.2),transparent);
-opacity:0;
-transition:0.6s;
-}
-
-.card:hover::before{
-opacity:1;
-}
-
-.card:hover{
+.course-card:hover{
 transform:translateY(-6px);
 border-color:#6366f1;
 }
 
-.card h3{
-font-size:13px;
-color:#94a3b8;
-margin-bottom:10px;
+/* HEADER */
+
+.course-header{
+padding:25px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+background:linear-gradient(135deg,#6366f1,#4f46e5);
 }
 
-.card p{
-font-size:28px;
+.course-title{
+font-size:18px;
 font-weight:600;
 }
 
-/* ALERT */
-
-.alert{
-background:rgba(220,38,38,0.1);
-border:1px solid rgba(248,113,113,0.4);
-padding:16px;
-border-radius:12px;
-margin-bottom:35px;
-color:#f87171;
+.course-section{
+font-size:13px;
+opacity:0.85;
+margin-top:4px;
 }
 
-/* PROGRESS */
+/* PROFESSOR */
+
+.professor{
+width:38px;
+height:38px;
+border-radius:50%;
+border:2px solid rgba(255,255,255,0.4);
+object-fit:cover;
+}
+
+/* BODY */
+
+.course-body{
+padding:22px;
+}
+
+.stats{
+display:flex;
+justify-content:space-between;
+font-size:13px;
+margin-bottom:15px;
+color:#cbd5f5;
+}
 
 .progress-wrap{
-margin-top:12px;
 height:8px;
 background:rgba(255,255,255,0.08);
-border-radius:8px;
+border-radius:10px;
 overflow:hidden;
+margin-bottom:18px;
 }
 
 .progress-bar{
 height:8px;
-width:0%;
 background:linear-gradient(90deg,#6366f1,#22d3ee);
-transition:width 1s ease;
 }
-
-/* ACTIONS */
 
 .actions{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(180px,1fr));
-gap:18px;
+display:flex;
+gap:10px;
 }
 
-.actions a{
+.btn{
+flex:1;
 text-align:center;
-padding:14px;
-border-radius:12px;
-background:linear-gradient(135deg,#6366f1,#4f46e5);
-color:white;
+padding:9px;
+border-radius:10px;
+font-size:13px;
 text-decoration:none;
-font-weight:500;
 transition:0.3s;
 }
 
-.actions a:hover{
-transform:translateY(-5px);
-box-shadow:0 10px 25px rgba(99,102,241,0.4);
+.btn-primary{
+background:linear-gradient(135deg,#6366f1,#4f46e5);
+color:white;
+}
+
+.btn-secondary{
+background:rgba(255,255,255,0.08);
+color:#e2e8f0;
+}
+
+.btn-secondary:hover{
+background:rgba(255,255,255,0.15);
+}
+
+/* FOOTER */
+
+.footer{
+background:#020617;
+text-align:center;
+padding:18px;
+font-size:13px;
+color:#94a3b8;
+border-top:1px solid rgba(255,255,255,0.08);
 }
 
 /* MOBILE */
@@ -201,156 +252,130 @@ flex-direction:column;
 
 .sidebar{
 width:100%;
-flex-direction:row;
-align-items:center;
+display:flex;
 justify-content:space-around;
-padding:15px;
-}
-
-.sidebar h2{
-display:none;
-}
-
-.sidebar a{
-margin:0;
-font-size:13px;
 }
 
 .main{
 padding:25px;
 }
 
-.topbar h1{
-font-size:20px;
 }
 
-}
-    </style>
+</style>
 </head>
 
 <body>
 
-    <div class="wrapper">
+<!-- NAVBAR -->
 
-        <!-- Sidebar -->
-        <div class="sidebar">
-            <div>
-                <h2>🎓 Campus Assistant</h2>
-                <a href="/dashboard">Dashboard</a>
-                <a href="/assignNotification">Assignments</a>
-                <a href="/allcourses">Courses</a>
-                <a href="/results">Results</a>
-            </div>
-            <a href="/logout">Logout</a>
-        </div>
+<div class="navbar">
 
-        <!-- Main -->
-        <div class="main">
+<div class="logo">🎓 Campus Assistant</div>
 
-            <div class="topbar">
-                <h1>Welcome, <%= user.displayName %> 👋</h1>
-                <div class="profile">
-                    <img src="<%= user.photos?.[0]?.value || 'https://via.placeholder.com/40' %>">
-                </div>
-            </div>
+<div class="nav-links">
+<a href="/">Home</a>
+<a href="/busform">Bus Concession</a>
 
-            <% if(totalKT> 0){ %>
-                <div class="alert">
-                    ⚠ You currently have <strong>
-                        <%= totalKT %>
-                    </strong> active KT subjects.
-                </div>
-                <% } %>
+<% if(user){ %>
+<a href="/dashboard">Dashboard</a>
+<a href="/logout">Logout</a>
+<% } else { %>
+<a href="/auth/google">Login</a>
+<% } %>
 
-                    <!-- Academic Overview -->
-                    <div class="grid">
+</div>
 
-                        <div class="card">
-                            <h3>CGPA</h3>
-                            <p class="counter" data-target="<%= cgpa || 0 %>">0</p>
-                        </div>
+</div>
 
-                        <div class="card">
-                            <h3>Latest SGPA</h3>
-                            <p class="counter" data-target="<%= latestSGPA || 0 %>">0</p>
-                        </div>
 
-                        <div class="card">
-                            <h3>Total KT</h3>
-                            <p class="counter" data-target="<%= totalKT %>">0</p>
-                        </div>
+<!-- PAGE CONTENT -->
 
-                    </div>
+<div class="wrapper">
 
-                    <!-- Productivity -->
-                    <div class="grid">
+<div class="sidebar">
 
-                        <div class="card">
-                            <h3>Total Tasks</h3>
-                            <p class="counter" data-target="<%= total %>">0</p>
-                        </div>
+<h2>Dashboard</h2>
 
-                        <div class="card">
-                            <h3>Completed</h3>
-                            <p class="counter" data-target="<%= completed %>">0</p>
-                        </div>
+<a href="/dashboard">Dashboard</a>
+<a href="/assignNotification">Assignments</a>
+<a href="/allcourses">Courses</a>
+<a href="/results">Results</a>
 
-                        <div class="card">
-                            <h3>Pending</h3>
-                            <p class="counter" data-target="<%= pending %>">0</p>
-                        </div>
+</div>
 
-                        <div class="card">
-                            <h3>Productivity</h3>
-                            <p>
-                                <%= progress %>%
-                            </p>
-                            <div class="progress-wrap">
-                                <div class="progress-bar" id="progressBar"></div>
-                            </div>
-                        </div>
 
-                    </div>
+<div class="main">
 
-                    <!-- Quick Actions -->
-                    <div class="actions">
-                        <a href="/assignments">📋 View Assignments</a>
-                        <a href="/allcourses">📚 View Courses</a>
-                        <a href="/results">📊 View Results</a>
-                    </div>
+<div class="header">
 
-        </div>
-    </div>
+<h1>📚 Your Courses</h1>
 
-    <script>
+<div class="profile">
+<img src="<%= user.photos?.[0]?.value || 'https://via.placeholder.com/40' %>">
+</div>
 
-        /* Animated Counters */
-        document.querySelectorAll(".counter").forEach(counter => {
-            const target = +counter.dataset.target;
-            let count = 0;
-            const speed = target / 30;
+</div>
 
-            const update = () => {
-                if (count < target) {
-                    count += speed;
-                    counter.innerText = Math.floor(count);
-                    requestAnimationFrame(update);
-                } else {
-                    counter.innerText = target;
-                }
-            };
+<div class="courses-grid">
 
-            update();
-        });
+<% courses.forEach(course => { %>
 
-        /* Animate Progress Bar */
-        document.addEventListener("DOMContentLoaded", () => {
-            const progress = <%= progress %>;
-            document.getElementById("progressBar").style.width = progress + "%";
-        });
+<div class="course-card">
 
-    </script>
+<div class="course-header">
+
+<div>
+<div class="course-title"><%= course.name %></div>
+<div class="course-section"><%= course.section || "No Section" %></div>
+</div>
+
+<img src="<%= course.teacherPhoto || 'https://i.pravatar.cc/100' %>" class="professor">
+
+</div>
+
+<div class="course-body">
+
+<div class="stats">
+<span>📄 <%= course.total %> Tasks</span>
+<span>⏳ <%= course.pending %></span>
+<span>✅ <%= course.completed %></span>
+</div>
+
+<div class="progress-wrap">
+<div class="progress-bar" style="width:<%= course.progress || 0 %>%"></div>
+</div>
+
+<div class="actions">
+
+<a href="/assignments?course=<%= course.name %>" class="btn btn-primary">
+View Tasks
+</a>
+
+<a href="<%= course.alternateLink %>" target="_blank" class="btn btn-secondary">
+Open Classroom
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+<% }) %>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- FOOTER -->
+
+<div class="footer">
+© 2026 Campus Assistant • Built for Students 🚀
+</div>
 
 </body>
-
 </html>

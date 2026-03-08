@@ -50,6 +50,10 @@ app.use(passport.session());
 /* =========================
    ROUTES
 ========================= */
+app.use((req,res,next)=>{
+  res.locals.user = req.user || null;
+  next();
+});
 app.use("/", authRoutes);
 app.use("/", dashboardRoutes);
 app.use("/", courseRoutes);
