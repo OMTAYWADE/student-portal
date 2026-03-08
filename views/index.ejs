@@ -2,7 +2,7 @@
 <html>
 
 <head>
-<title>Campus Assistant | Courses</title>
+<title>Campus Assistant</title>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
@@ -18,216 +18,127 @@ box-sizing:border-box;
 
 body{
 font-family:'Inter',sans-serif;
-background:#f4f6fb;
-min-height:100vh;
-color:#1e293b;
-display:flex;
-flex-direction:column;
+background:#0f172a;
+color:white;
 }
 
 /* NAVBAR */
 
 .navbar{
-background:white;
-padding:16px 40px;
 display:flex;
 justify-content:space-between;
 align-items:center;
-box-shadow:0 6px 20px rgba(0,0,0,0.05);
+padding:18px 40px;
+background:#020617;
+border-bottom:1px solid rgba(255,255,255,0.08);
 }
 
 .logo{
+font-size:20px;
 font-weight:700;
-font-size:18px;
 color:#6366f1;
 }
 
 .nav-links{
 display:flex;
-gap:20px;
+gap:22px;
 }
 
 .nav-links a{
+color:#94a3b8;
 text-decoration:none;
 font-size:14px;
-color:#475569;
-font-weight:500;
 }
 
 .nav-links a:hover{
-color:#6366f1;
-}
-
-/* MAIN CONTAINER */
-
-.container{
-max-width:1200px;
-margin:auto;
-padding:50px 20px;
-flex:1;
-}
-
-h1{
-font-size:28px;
-font-weight:600;
-margin-bottom:40px;
-}
-
-/* GRID */
-
-.courses-grid{
-display:grid;
-grid-template-columns:repeat(auto-fit,minmax(320px,1fr));
-gap:30px;
-}
-
-/* COURSE CARD */
-
-.course-card{
-background:white;
-border-radius:20px;
-overflow:hidden;
-box-shadow:0 15px 35px rgba(0,0,0,0.06);
-transition:transform .3s ease,box-shadow .3s ease;
-display:flex;
-flex-direction:column;
-}
-
-.course-card:hover{
-transform:translateY(-8px);
-box-shadow:0 25px 50px rgba(0,0,0,0.1);
-}
-
-/* HEADER */
-
-.course-header{
-padding:25px;
-display:flex;
-justify-content:space-between;
-align-items:center;
 color:white;
-background:linear-gradient(135deg,#6366f1,#22c55e);
 }
 
-.course-info h3{
-font-size:20px;
-margin-bottom:4px;
+/* HERO */
+
+.hero{
+padding:100px 20px;
+text-align:center;
+background:linear-gradient(135deg,#6366f1,#9333ea);
 }
 
-.course-info p{
-font-size:13px;
-opacity:0.9;
-}
-
-/* PROFESSOR IMAGE */
-
-.professor{
-width:42px;
-height:42px;
-border-radius:50%;
-border:2px solid rgba(255,255,255,0.6);
-object-fit:cover;
-}
-
-/* BODY */
-
-.course-body{
-padding:25px;
-flex:1;
-display:flex;
-flex-direction:column;
-justify-content:space-between;
-}
-
-/* STATS */
-
-.stats{
-display:flex;
-justify-content:space-between;
-font-size:14px;
-margin-bottom:18px;
-color:#475569;
-}
-
-/* PROGRESS */
-
-.progress-wrap{
-height:8px;
-background:#e2e8f0;
-border-radius:10px;
-overflow:hidden;
+.hero h1{
+font-size:48px;
 margin-bottom:20px;
 }
 
-.progress-bar{
-height:8px;
-background:#22c55e;
+.hero p{
+font-size:18px;
+opacity:0.9;
+max-width:650px;
+margin:auto;
+margin-bottom:30px;
 }
 
-/* ACTIONS */
-
-.actions{
-display:flex;
-gap:10px;
-}
-
-.btn{
-flex:1;
-text-align:center;
-padding:9px;
+.hero-btn{
+background:white;
+color:#4f46e5;
+padding:14px 28px;
 border-radius:10px;
+font-weight:600;
 text-decoration:none;
-font-size:13px;
-font-weight:500;
 }
 
-.btn-primary{
-background:#6366f1;
-color:white;
+/* FEATURES */
+
+.section{
+padding:80px 20px;
+max-width:1100px;
+margin:auto;
 }
 
-.btn-secondary{
-background:#f1f5f9;
-color:#1e293b;
+.section h2{
+text-align:center;
+margin-bottom:40px;
+font-size:30px;
 }
 
-.btn-primary:hover{
-background:#4f46e5;
+.features{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
 }
 
-.btn-secondary:hover{
-background:#e2e8f0;
+.feature-card{
+background:#020617;
+padding:30px;
+border-radius:14px;
+border:1px solid rgba(255,255,255,0.06);
+transition:.3s;
+}
+
+.feature-card:hover{
+transform:translateY(-5px);
+border-color:#6366f1;
+}
+
+.feature-card h3{
+margin-bottom:10px;
+}
+
+/* ABOUT */
+
+.about{
+text-align:center;
+max-width:800px;
+margin:auto;
+opacity:0.9;
 }
 
 /* FOOTER */
 
 .footer{
-background:white;
-padding:18px;
+margin-top:60px;
 text-align:center;
+padding:25px;
 font-size:13px;
-color:#64748b;
-box-shadow:0 -5px 20px rgba(0,0,0,0.05);
-}
-
-/* MOBILE */
-
-@media(max-width:600px){
-
-.container{
-padding:30px 15px;
-}
-
-.course-header{
-flex-direction:column;
-align-items:flex-start;
-gap:10px;
-}
-
-.professor{
-align-self:flex-end;
-}
-
+color:#94a3b8;
+border-top:1px solid rgba(255,255,255,0.08);
 }
 
 </style>
@@ -244,8 +155,7 @@ align-self:flex-end;
 <div class="nav-links">
 
 <a href="/">Home</a>
-<a href="/notes">Notes Hub</a>
-<a href="/notes/browse">Browse</a>
+<a href="/busform">Bus Concession</a>
 
 <% if(user){ %>
 <a href="/dashboard">Dashboard</a>
@@ -259,77 +169,78 @@ align-self:flex-end;
 </div>
 
 
-<!-- CONTENT -->
+<!-- HERO -->
 
-<div class="container">
+<div class="hero">
 
-<h1>📚 Your Courses</h1>
+<h1>Smart Digital Campus Portal</h1>
 
-<div class="courses-grid">
+<p>
+A unified platform for students to manage assignments, courses,
+results and campus services in one place.
+</p>
 
-<% courses.forEach(course=> { %>
+<% if(!user){ %>
 
-<div class="course-card">
-
-<div class="course-header"
-
-style="<%= course.backgroundImageUrl 
-? `background:url('${course.backgroundImageUrl}') center/cover`
-: `background:${course.backgroundColor || 'linear-gradient(135deg,#6366f1,#22c55e)'}` %>">
-
-<div class="course-info">
-
-<h3><%= course.name %></h3>
-
-<p><%= course.section || "No Section" %></p>
-
-</div>
-
-<img src="<%= course.teacherPhoto || 'https://i.pravatar.cc/100' %>" class="professor">
-
-</div>
-
-<div class="course-body">
-
-<div>
-
-<div class="stats">
-
-<span>📄 <%= course.total %> Tasks</span>
-
-<span>⏳ <%= course.pending %> Pending</span>
-
-<span>✅ <%= course.completed %> Done</span>
-
-</div>
-
-<div class="progress-wrap">
-
-<div class="progress-bar" style="width:<%= course.progress || 0 %>%"></div>
-
-</div>
-
-</div>
-
-<div class="actions">
-
-<a href="/assignments?course=<%= course.name %>" class="btn btn-primary">
-View Tasks
+<a href="/auth/google" class="hero-btn">
+Connect Google Classroom
 </a>
 
-<a href="<%= course.alternateLink %>" target="_blank" class="btn btn-secondary">
-Open Classroom
+<% } else { %>
+
+<a href="/dashboard" class="hero-btn">
+Go to Dashboard
 </a>
 
+<% } %>
+
+</div>
+
+
+<!-- FEATURES -->
+
+<div class="section">
+
+<h2>🚀 Portal Features</h2>
+
+<div class="features">
+
+<div class="feature-card">
+<h3>📚 Course Dashboard</h3>
+<p>Track your Google Classroom courses and assignments easily.</p>
+</div>
+
+<div class="feature-card">
+<h3>📊 Academic Results</h3>
+<p>Upload your semester result PDF and analyze your performance.</p>
+</div>
+
+<div class="feature-card">
+<h3>🚌 Bus Concession</h3>
+<p>Download and manage student transport concession forms.</p>
+</div>
+
+<div class="feature-card">
+<h3>📝 Notes Hub</h3>
+<p>Browse and upload notes shared by students.</p>
 </div>
 
 </div>
 
 </div>
 
-<% }) %>
 
-</div>
+<!-- ABOUT -->
+
+<div class="section about">
+
+<h2>Why Campus Assistant?</h2>
+
+<p>
+Campus Assistant is designed to simplify student life by combining
+academic tracking, classroom integration and campus services
+into one powerful portal.
+</p>
 
 </div>
 
@@ -337,9 +248,10 @@ Open Classroom
 <!-- FOOTER -->
 
 <div class="footer">
+
 © 2026 Campus Assistant • Built for Students 🚀
+
 </div>
 
 </body>
-
 </html>
