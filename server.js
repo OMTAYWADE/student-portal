@@ -58,6 +58,9 @@ app.use("/", courseRoutes);
 app.use("/", resultRoutes);
 app.use("/", assignmentRoutes);
 app.use("/", noteRoutes);
+app.get("/busform", (req, res) => {
+  res.render("busform");
+});
 
 app.get("/privacy", (req, res) => res.render("privacy"));
 app.get("/terms", (req, res) => res.render("terms"));
