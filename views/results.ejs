@@ -3,267 +3,328 @@
 <head>
 <title>Campus Assistant | Results</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <style>
+
 body{
-  font-family:'Inter',sans-serif;
-  background:linear-gradient(135deg,#e0f2fe,#f1f5f9);
-  min-height:100vh;
-  color:#1e293b;
+font-family:'Inter',sans-serif;
+background:linear-gradient(135deg,#e0f2fe,#f1f5f9);
+min-height:100vh;
+color:#1e293b;
 }
 
 .container{
-  max-width:1200px;
-  margin:auto;
-  padding:60px 20px;
+max-width:1200px;
+margin:auto;
+padding:60px 20px;
 }
 
 h1{
-  font-size:32px;
-  margin-bottom:40px;
-  font-weight:700;
+font-size:32px;
+margin-bottom:40px;
+font-weight:700;
 }
 
-/* Glass Card */
+/* CARD */
+
 .card{
-  background:rgba(255,255,255,0.8);
-  backdrop-filter:blur(10px);
-  border-radius:20px;
-  padding:35px;
-  box-shadow:0 20px 40px rgba(0,0,0,0.06);
-  margin-bottom:40px;
-  transition:0.3s;
+background:rgba(255,255,255,0.85);
+backdrop-filter:blur(10px);
+border-radius:20px;
+padding:35px;
+box-shadow:0 20px 40px rgba(0,0,0,0.06);
+margin-bottom:40px;
+transition:0.3s;
 }
 
 .card:hover{
-  transform:translateY(-5px);
+transform:translateY(-4px);
 }
 
+/* UPLOAD */
+
+.upload-box{
+text-align:center;
+padding:50px;
+border:2px dashed #cbd5e1;
+border-radius:20px;
+background:white;
+}
+
+.upload-box input{
+margin-top:20px;
+}
+
+.btn{
+margin-top:15px;
+padding:10px 18px;
+border:none;
+border-radius:10px;
+background:linear-gradient(135deg,#6366f1,#4f46e5);
+color:white;
+cursor:pointer;
+font-weight:600;
+transition:0.2s;
+}
+
+.btn:hover{
+transform:scale(1.05);
+}
+
+/* ERROR */
+
+.error{
+background:#fee2e2;
+color:#991b1b;
+padding:12px;
+border-radius:10px;
+margin-top:15px;
+}
+
+/* OVERVIEW */
+
 .overview{
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
-  gap:25px;
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
 }
 
 .overview-box{
-  padding:25px;
-  border-radius:16px;
-  color:white;
-  position:relative;
-  overflow:hidden;
+padding:25px;
+border-radius:16px;
+color:white;
+position:relative;
+overflow:hidden;
 }
 
 .overview-box::after{
-  content:"";
-  position:absolute;
-  top:-40px;
-  right:-40px;
-  width:120px;
-  height:120px;
-  background:rgba(255,255,255,0.2);
-  border-radius:50%;
+content:"";
+position:absolute;
+top:-40px;
+right:-40px;
+width:120px;
+height:120px;
+background:rgba(255,255,255,0.2);
+border-radius:50%;
 }
 
 .overview-box h3{
-  font-size:13px;
-  opacity:0.8;
-  margin-bottom:8px;
+font-size:13px;
+opacity:0.8;
+margin-bottom:8px;
 }
 
 .overview-box p{
-  font-size:26px;
-  font-weight:700;
+font-size:26px;
+font-weight:700;
 }
 
-/* Dynamic Colors */
+/* COLORS */
+
 .cgpa-high{background:linear-gradient(135deg,#16a34a,#22c55e);}
 .cgpa-good{background:linear-gradient(135deg,#2563eb,#3b82f6);}
 .cgpa-avg{background:linear-gradient(135deg,#7c3aed,#a855f7);}
 .cgpa-low{background:linear-gradient(135deg,#ea580c,#f97316);}
 
 .kt-alert{
-  background:linear-gradient(135deg,#fee2e2,#fecaca);
-  color:#991b1b;
-  padding:20px;
-  border-radius:14px;
-  margin-top:25px;
-  font-weight:500;
+background:linear-gradient(135deg,#fee2e2,#fecaca);
+color:#991b1b;
+padding:20px;
+border-radius:14px;
+margin-top:25px;
+font-weight:500;
 }
 
-/* Semester Cards */
+/* SEMESTER */
+
 .semester{
-  margin-top:50px;
+margin-top:40px;
 }
 
-.semester h2{
-  margin-bottom:20px;
-}
-
-/* Subjects */
 .subject-row{
-  display:grid;
-  grid-template-columns:2fr 1fr 1fr 1fr 1fr;
-  padding:18px;
-  border-bottom:1px solid #f1f5f9;
-  font-size:14px;
-  transition:0.2s;
-}
-
-.subject-row:hover{
-  background:#f8fafc;
-  border-radius:10px;
+display:grid;
+grid-template-columns:2fr 1fr 1fr 1fr 1fr;
+padding:16px;
+border-bottom:1px solid #f1f5f9;
+font-size:14px;
 }
 
 .subject-row.header{
-  font-weight:600;
-  background:#f1f5f9;
-  border-radius:10px;
+font-weight:600;
+background:#f1f5f9;
+border-radius:10px;
 }
 
+/* BADGES */
+
 .badge{
-  padding:5px 12px;
-  border-radius:20px;
-  font-size:11px;
-  font-weight:600;
+padding:5px 12px;
+border-radius:20px;
+font-size:11px;
+font-weight:600;
 }
 
 .pass{
-  background:#dcfce7;
-  color:#166534;
+background:#dcfce7;
+color:#166534;
 }
 
 .kt{
-  background:#fee2e2;
-  color:#b91c1c;
-}
-
-/* Upload Box */
-.upload-box{
-  text-align:center;
-  padding:50px;
-  border:2px dashed #cbd5e1;
-  border-radius:20px;
-  background:white;
-}
-
-.btn{
-  margin-top:15px;
-  padding:10px 18px;
-  border:none;
-  border-radius:10px;
-  background:linear-gradient(135deg,#6366f1,#4f46e5);
-  color:white;
-  cursor:pointer;
-  font-weight:600;
-  transition:0.2s;
-}
-
-.btn:hover{
-  transform:scale(1.05);
+background:#fee2e2;
+color:#b91c1c;
 }
 
 @media(max-width:700px){
-  .subject-row{
-    grid-template-columns:1fr;
-    gap:8px;
-  }
+.subject-row{
+grid-template-columns:1fr;
+gap:8px;
 }
+}
+
 </style>
 </head>
 
 <body>
 
 <div class="container">
+
 <h1>🎓 Academic Results</h1>
 
-<% if(!result) { %>
+<!-- SHOW UPLOAD IF NO RESULT -->
+
+<% if(!result || !result.semesters) { %>
 
 <div class="card upload-box">
-  <h2>Upload Your Result PDF</h2>
-  <form action="/upload-result" method="POST" enctype="multipart/form-data">
-    <input type="file" name="resultPdf" required>
-    <br>
-    <button type="submit" class="btn">Upload Result</button>
-  </form>
+
+<h2>Upload Your Result PDF</h2>
+
+<p style="margin-top:10px;color:#64748b;">
+Upload your Mumbai University result PDF to analyze your performance.
+</p>
+
+<% if(error){ %>
+<div class="error">
+⚠ <%= error %>
 </div>
-
-<% } else { %>
-
-<div class="card">
-  <div class="overview">
-    <div style="margin-top:25px;font-size:16px;font-weight:500;">
-<% if(result.cgpa >= 9){ %>
-  🌟 Outstanding performance! Keep dominating.
-<% } else if(result.cgpa >= 8){ %>
-  🚀 Strong academic performance. Great job!
-<% } else if(result.cgpa >= 7){ %>
-  👍 Good performance. Aim higher next semester.
-<% } else { %>
-  ⚠ Focus required. Let’s improve next semester.
 <% } %>
+
+<form action="/upload-result" method="POST" enctype="multipart/form-data">
+
+<input type="file" name="resultPdf" accept="application/pdf" required>
+
+<br>
+
+<button type="submit" class="btn">
+Upload Result
+</button>
+
+</form>
+
 </div>
 
-    <%
-let cgpaClass = "cgpa-low";
-if(result.cgpa >= 9) cgpaClass = "cgpa-high";
-else if(result.cgpa >= 8) cgpaClass = "cgpa-good";
-else if(result.cgpa >= 7) cgpaClass = "cgpa-avg";
+<% } else { %>
+
+<!-- RESULT OVERVIEW -->
+
+<%
+
+let cgpaClass="cgpa-low";
+
+if(result.cgpa>=9) cgpaClass="cgpa-high";
+else if(result.cgpa>=8) cgpaClass="cgpa-good";
+else if(result.cgpa>=7) cgpaClass="cgpa-avg";
+
 %>
 
-<div class="overview-box <%= cgpaClass %>">
-      <h3>CGPA</h3>
-      <p><%= result.cgpa %></p>
-    </div>
+<div class="card">
 
-    <div class="overview-box">
-      <h3>Total KT</h3>
-      <p><%= result.totalKT %></p>
-    </div>
+<div class="overview">
 
-    <div class="overview-box">
-      <h3>Last Updated</h3>
-      <p><%= new Date(result.uploadedAt).toLocaleDateString() %></p>
-    </div>
+<div>
 
-  </div>
-
-  <% if(result.totalKT > 0){ %>
-    <div class="kt-alert">
-      ⚠ You have <strong><%= result.totalKT %></strong> active KT subjects.
-    </div>
-  <% } %>
+<% if(result.cgpa>=9){ %>
+🌟 Outstanding performance! Keep dominating.
+<% } else if(result.cgpa>=8){ %>
+🚀 Strong academic performance. Great job!
+<% } else if(result.cgpa>=7){ %>
+👍 Good performance. Aim higher next semester.
+<% } else { %>
+⚠ Focus required. Let’s improve next semester.
+<% } %>
 
 </div>
 
-<% result.semesters.forEach(sem => { %>
+<div class="overview-box <%= cgpaClass %>">
+<h3>CGPA</h3>
+<p><%= result.cgpa %></p>
+</div>
+
+<div class="overview-box">
+<h3>Total KT</h3>
+<p><%= result.totalKT %></p>
+</div>
+
+<div class="overview-box">
+<h3>Last Updated</h3>
+<p><%= new Date(result.uploadedAt).toLocaleDateString() %></p>
+</div>
+
+</div>
+
+<% if(result.totalKT>0){ %>
+
+<div class="kt-alert">
+⚠ You have <strong><%= result.totalKT %></strong> active KT subjects.
+</div>
+
+<% } %>
+
+</div>
+
+<!-- SEMESTERS -->
+
+<% result.semesters.forEach(sem=>{ %>
 
 <div class="semester card">
 
-<h2 style="margin-bottom:15px;">Semester <%= sem.semesterNumber %> (SGPA: <%= sem.sgpa %>)</h2>
+<h2>Semester <%= sem.semesterNumber %> (SGPA: <%= sem.sgpa %>)</h2>
 
 <div class="subject-row header">
-  <div>Subject</div>
-  <div>Marks</div>
-  <div>Total</div>
-  <div>Grade</div>
-  <div>Status</div>
+<div>Subject</div>
+<div>Marks</div>
+<div>Total</div>
+<div>Grade</div>
+<div>Status</div>
 </div>
 
-<% sem.subjects.forEach(sub => { %>
+<% sem.subjects.forEach(sub=>{ %>
 
 <div class="subject-row">
-  <div><%= sub.name %></div>
-  <div><%= sub.marks %></div>
-  <div><%= sub.total %></div>
-  <div><%= sub.grade %></div>
-  <div>
-    <% if(sub.kt){ %>
-      <span class="badge kt">KT</span>
-    <% } else { %>
-      <span class="badge pass">Pass</span>
-    <% } %>
-  </div>
+
+<div><%= sub.name %></div>
+
+<div><%= sub.marks %></div>
+
+<div><%= sub.total %></div>
+
+<div><%= sub.grade %></div>
+
+<div>
+
+<% if(sub.kt){ %>
+
+<span class="badge kt">KT</span>
+
+<% } else { %>
+
+<span class="badge pass">Pass</span>
+
+<% } %>
+
+</div>
+
 </div>
 
 <% }) %>
