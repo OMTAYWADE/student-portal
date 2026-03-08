@@ -6,245 +6,291 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box
-    }
+<style>
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: #eef2f7;
-      display: flex;
-      min-height: 100vh;
-      color: #1e293b;
-    }
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-    /* Sidebar */
-    .sidebar {
-      width: 220px;
-      background: #111827;
-      color: white;
-      padding: 30px 20px;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
+body{
+font-family:'Inter',sans-serif;
+background:#f1f5f9;
+color:#0f172a;
+display:flex;
+min-height:100vh;
+}
 
-    .sidebar h2 {
-      font-size: 18px;
-      margin-bottom: 30px;
-    }
+/* SIDEBAR */
 
-    .sidebar a {
-      display: block;
-      color: #cbd5e1;
-      text-decoration: none;
-      margin-bottom: 12px;
-      font-size: 14px;
-      transition: 0.2s;
-    }
+.sidebar{
+width:240px;
+background:#020617;
+color:white;
+padding:30px 20px;
+display:flex;
+flex-direction:column;
+justify-content:space-between;
+transition:0.3s;
+}
 
-    .sidebar a:hover {
-      color: white;
-    }
+.sidebar h2{
+font-size:18px;
+margin-bottom:30px;
+}
 
-    /* Main container */
-    .main {
-      flex: 1;
-      padding: 50px;
-    }
+.sidebar a{
+display:block;
+text-decoration:none;
+color:#94a3b8;
+margin-bottom:14px;
+font-size:14px;
+padding:8px 10px;
+border-radius:8px;
+transition:0.2s;
+}
 
-    .content-wrapper {
-      max-width: 1100px;
-      margin: auto;
-    }
+.sidebar a:hover{
+background:#1e293b;
+color:white;
+}
 
-    /* Topbar */
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 40px;
-    }
+/* MAIN */
 
-    .topbar h2 {
-      font-size: 24px;
-      font-weight: 600;
-    }
+.main{
+flex:1;
+padding:40px;
+}
 
-    /* Summary */
-    .summary {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 25px;
-      margin-bottom: 40px;
-    }
+/* TOPBAR */
 
-    .card {
-      background: white;
-      padding: 25px;
-      border-radius: 16px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
-    }
+.topbar{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:35px;
+}
 
-    .card h3 {
-      font-size: 13px;
-      color: #64748b;
-      margin-bottom: 10px;
-    }
+.topbar h2{
+font-size:24px;
+font-weight:600;
+}
 
-    .card p {
-      font-size: 26px;
-      font-weight: 600;
-    }
+.profile img{
+width:42px;
+height:42px;
+border-radius:50%;
+}
 
-    /* Progress */
-    .progress-wrap {
-      margin-top: 12px;
-      height: 8px;
-      background: #e2e8f0;
-      border-radius: 10px;
-      overflow: hidden;
-    }
+/* SUMMARY GRID */
 
-    .progress-bar {
-      height: 8px;
-      width: 0%;
-      background: linear-gradient(90deg, #22c55e, #16a34a);
-      transition: width 0.6s ease;
-    }
+.summary{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+margin-bottom:35px;
+}
 
-    /* Section title */
-    .section-title {
-      font-size: 20px;
-      font-weight: 600;
-      margin-bottom: 20px;
-    }
+.card{
+background:white;
+padding:22px;
+border-radius:14px;
+box-shadow:0 10px 25px rgba(0,0,0,0.05);
+transition:0.3s;
+}
 
-    /* Assignment container */
-    .assignment-container {
-      background: white;
-      border-radius: 16px;
-      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.05);
-      padding: 10px 25px;
-    }
+.card:hover{
+transform:translateY(-6px);
+box-shadow:0 15px 35px rgba(0,0,0,0.08);
+}
 
-    /* Assignment row */
-    .assignment {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 20px 0;
-      border-bottom: 1px solid #f1f5f9;
-      transition: background 0.2s ease;
-    }
+.card h3{
+font-size:13px;
+color:#64748b;
+margin-bottom:8px;
+}
 
-    .assignment:hover {
-      background: #f8fafc;
-      border-radius: 10px;
-      padding-left: 10px;
-      padding-right: 10px;
-    }
+.card p{
+font-size:26px;
+font-weight:600;
+}
 
-    .assignment:last-child {
-      border-bottom: none;
-    }
+/* PROGRESS */
 
-    .assignment-info {
-      display: flex;
-      flex-direction: column;
-      gap: 4px;
-    }
+.progress-wrap{
+margin-top:10px;
+height:8px;
+background:#e2e8f0;
+border-radius:8px;
+overflow:hidden;
+}
 
-    .assignment-info strong {
-      font-size: 15px;
-    }
+.progress-bar{
+height:8px;
+background:linear-gradient(90deg,#22c55e,#16a34a);
+width:0%;
+transition:width 0.6s ease;
+}
 
-    .assignment-info small {
-      font-size: 13px;
-      color: #64748b;
-    }
+/* FILTER BAR */
 
-    /* Status */
-    .badge {
-      padding: 5px 12px;
-      border-radius: 20px;
-      font-size: 12px;
-      font-weight: 500;
-    }
+.filter-bar{
+margin-bottom:20px;
+display:flex;
+flex-wrap:wrap;
+gap:10px;
+}
 
-    .badge.pending {
-      background: #fef3c7;
-      color: #92400e
-    }
+.filter-btn{
+padding:6px 14px;
+border-radius:20px;
+border:none;
+background:#e2e8f0;
+cursor:pointer;
+font-size:12px;
+}
 
-    .badge.done {
-      background: #dcfce7;
-      color: #166534
-    }
+.filter-btn.active{
+background:#0f172a;
+color:white;
+}
 
-    .badge.overdue {
-      background: #fee2e2;
-      color: #b91c1c
-    }
+/* ASSIGNMENTS */
 
-    /* Buttons */
-    .btn {
-      padding: 6px 12px;
-      border: none;
-      border-radius: 8px;
-      cursor: pointer;
-      font-size: 12px;
-      margin-left: 8px;
-      transition: 0.2s;
-    }
+.assignment-container{
+background:white;
+border-radius:14px;
+box-shadow:0 8px 20px rgba(0,0,0,0.05);
+padding:10px 25px;
+}
 
-    .btn-complete {
-      background: #22c55e;
-      color: white
-    }
+.assignment{
+display:flex;
+justify-content:space-between;
+align-items:center;
+padding:18px 0;
+border-bottom:1px solid #f1f5f9;
+transition:0.2s;
+}
 
-    .btn-undo {
-      background: #ef4444;
-      color: white
-    }
+.assignment:hover{
+background:#f8fafc;
+padding-left:10px;
+padding-right:10px;
+border-radius:10px;
+}
 
-    .btn:hover {
-      opacity: 0.85
-    }
+.assignment:last-child{
+border-bottom:none;
+}
 
-    .filter-btn {
-      padding: 6px 14px;
-      border-radius: 20px;
-      border: none;
-      cursor: pointer;
-      background: #e2e8f0;
-      font-size: 12px;
-    }
+.assignment-info{
+display:flex;
+flex-direction:column;
+gap:4px;
+}
 
-    .filter-btn.active {
-      background: #111827;
-      color: white;
-    }
+.assignment-info strong{
+font-size:15px;
+}
 
-    /* Responsive */
-    @media(max-width:900px) {
-      body {
-        flex-direction: column
-      }
+.assignment-info small{
+font-size:13px;
+color:#64748b;
+}
 
-      .sidebar {
-        width: 100%;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-      }
+/* BADGES */
 
-      .main {
-        padding: 20px
-      }
-    }
+.badge{
+padding:5px 12px;
+border-radius:20px;
+font-size:12px;
+font-weight:500;
+}
+
+.badge.pending{
+background:#fef3c7;
+color:#92400e;
+}
+
+.badge.done{
+background:#dcfce7;
+color:#166534;
+}
+
+.badge.overdue{
+background:#fee2e2;
+color:#b91c1c;
+}
+
+/* BUTTONS */
+
+.btn{
+padding:6px 12px;
+border:none;
+border-radius:8px;
+cursor:pointer;
+font-size:12px;
+margin-left:8px;
+}
+
+.btn-complete{
+background:#22c55e;
+color:white;
+}
+
+.btn-undo{
+background:#ef4444;
+color:white;
+}
+
+.btn:hover{
+opacity:0.85;
+}
+
+/* RESPONSIVE */
+
+@media(max-width:900px){
+
+body{
+flex-direction:column;
+}
+
+.sidebar{
+width:100%;
+flex-direction:row;
+align-items:center;
+justify-content:space-between;
+padding:15px 20px;
+}
+
+.sidebar h2{
+margin:0;
+}
+
+.sidebar div{
+display:flex;
+gap:15px;
+}
+
+.main{
+padding:20px;
+}
+
+.summary{
+grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+}
+
+.assignment{
+flex-direction:column;
+align-items:flex-start;
+gap:10px;
+}
+
+}
+
+</style>
   </style>
 </head>
 
