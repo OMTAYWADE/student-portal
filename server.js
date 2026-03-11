@@ -14,6 +14,7 @@ const resultRoutes = require("./routes/resultRoutes");
 const assignmentRoutes = require("./routes/assignmentRoutes");
 const noteRoutes = require("./routes/noteRoutes");
 const paymentRoutes = require("./routes/paymentRoutes");
+const marketRoutes = require("./routes/marketRoutes");
 
 const app = express();
 
