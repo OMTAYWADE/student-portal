@@ -4,311 +4,314 @@
 
 <head>
 
-<title>Transport Concession | Campus Assistant</title>
+    <title>Transport Concession | Campus Assistant</title>
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
-<style>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0f172a, #020617);
+            color: white;
+            min-height: 100vh;
+        }
 
-body{
-font-family:'Inter',sans-serif;
-background:linear-gradient(135deg,#0f172a,#020617);
-color:white;
-min-height:100vh;
-}
+        /* NAVBAR */
 
-/* NAVBAR */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 40px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
 
-.navbar{
-display:flex;
-justify-content:space-between;
-align-items:center;
-padding:18px 40px;
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(12px);
-border-bottom:1px solid rgba(255,255,255,0.05);
-}
+        .navbar h2 {
+            font-size: 18px;
+        }
 
-.navbar h2{
-font-size:18px;
-}
+        .navbar a {
+            text-decoration: none;
+            color: #cbd5f5;
+            font-size: 14px;
+        }
 
-.navbar a{
-text-decoration:none;
-color:#cbd5f5;
-font-size:14px;
-}
+        .navbar a:hover {
+            color: #22d3ee;
+        }
 
-.navbar a:hover{
-color:#22d3ee;
-}
+        /* HERO */
 
-/* HERO */
+        .hero {
+            text-align: center;
+            padding: 60px 20px 30px;
+        }
 
-.hero{
-text-align:center;
-padding:60px 20px 30px;
-}
+        .hero h1 {
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
 
-.hero h1{
-font-size:32px;
-margin-bottom:10px;
-}
+        .hero p {
+            color: #94a3b8;
+        }
 
-.hero p{
-color:#94a3b8;
-}
+        /* CONTAINER */
 
-/* CONTAINER */
+        .container {
+            max-width: 1100px;
+            margin: auto;
+            padding: 20px;
+        }
 
-.container{
-max-width:1100px;
-margin:auto;
-padding:20px;
-}
+        /* GRID */
 
-/* GRID */
+        .grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 30px;
+        }
 
-.grid{
-display:grid;
-grid-template-columns:1.2fr 1fr;
-gap:30px;
-}
+        /* CARD */
 
-/* CARD */
+        .card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(15px);
+            border-radius: 18px;
+            padding: 28px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: 0.3s;
+        }
 
-.card{
-background:rgba(255,255,255,0.05);
-backdrop-filter:blur(15px);
-border-radius:18px;
-padding:28px;
-border:1px solid rgba(255,255,255,0.08);
-transition:0.3s;
-}
+        .card:hover {
+            transform: translateY(-5px);
+        }
 
-.card:hover{
-transform:translateY(-5px);
-}
+        /* PREVIEW */
 
-/* PREVIEW */
+        .preview-grid {
+            margin-top: 20px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
 
-.preview-grid{
-margin-top:20px;
-display:grid;
-grid-template-columns:1fr 1fr;
-gap:15px;
-}
+        .preview-item {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 12px;
+            border-radius: 10px;
+            font-size: 14px;
+        }
 
-.preview-item{
-background:rgba(255,255,255,0.06);
-padding:12px;
-border-radius:10px;
-font-size:14px;
-}
+        /* PAYMENT */
 
-/* PAYMENT */
+        .payment {
+            text-align: center;
+            background: linear-gradient(135deg, #6366f1, #4f46e5);
+        }
 
-.payment{
-text-align:center;
-background:linear-gradient(135deg,#6366f1,#4f46e5);
-}
+        /* BUTTON */
 
-/* BUTTON */
+        .pay-btn {
+            margin-top: 18px;
+            background: white;
+            color: #4f46e5;
+            padding: 14px 28px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-.pay-btn{
-margin-top:18px;
-background:white;
-color:#4f46e5;
-padding:14px 28px;
-border:none;
-border-radius:10px;
-font-weight:600;
-cursor:pointer;
-transition:0.3s;
-}
+        .pay-btn:hover {
+            transform: scale(1.05);
+        }
 
-.pay-btn:hover{
-transform:scale(1.05);
-}
+        .pay-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
 
-.pay-btn:disabled{
-opacity:0.6;
-cursor:not-allowed;
-}
+        /* DOWNLOAD */
 
-/* DOWNLOAD */
+        .download-btn {
+            display: none;
+            margin-top: 18px;
+            background: #22c55e;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
 
-.download-btn{
-display:none;
-margin-top:18px;
-background:#22c55e;
-border:none;
-padding:12px 25px;
-border-radius:10px;
-color:white;
-cursor:pointer;
-transition:0.3s;
-}
+        .download-btn:hover {
+            transform: scale(1.05);
+        }
 
-.download-btn:hover{
-transform:scale(1.05);
-}
+        /* SUCCESS */
 
-/* SUCCESS */
+        .success {
+            display: none;
+            margin-top: 18px;
+            background: #dcfce7;
+            color: #166534;
+            padding: 12px;
+            border-radius: 10px;
+            animation: fadeIn 0.5s ease;
+        }
 
-.success{
-display:none;
-margin-top:18px;
-background:#dcfce7;
-color:#166534;
-padding:12px;
-border-radius:10px;
-animation:fadeIn 0.5s ease;
-}
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
 
-@keyframes fadeIn{
-from{opacity:0;transform:translateY(10px);}
-to{opacity:1;transform:translateY(0);}
-}
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
 
-/* LOADER */
+        /* LOADER */
 
-.loader{
-display:none;
-margin-top:12px;
-font-size:14px;
-color:#e0e7ff;
-}
+        .loader {
+            display: none;
+            margin-top: 12px;
+            font-size: 14px;
+            color: #e0e7ff;
+        }
 
-/* INSTRUCTIONS */
+        /* INSTRUCTIONS */
 
-.instructions{
-margin-top:35px;
-}
+        .instructions {
+            margin-top: 35px;
+        }
 
-.instructions ul{
-margin-top:12px;
-line-height:1.8;
-color:#cbd5f5;
-}
+        .instructions ul {
+            margin-top: 12px;
+            line-height: 1.8;
+            color: #cbd5f5;
+        }
 
-/* MOBILE */
+        /* MOBILE */
 
-@media(max-width:900px){
+        @media(max-width:900px) {
 
-.grid{
-grid-template-columns:1fr;
-}
+            .grid {
+                grid-template-columns: 1fr;
+            }
 
-.preview-grid{
-grid-template-columns:1fr;
-}
+            .preview-grid {
+                grid-template-columns: 1fr;
+            }
 
-.hero h1{
-font-size:26px;
-}
+            .hero h1 {
+                font-size: 26px;
+            }
 
-}
-
-</style>
+        }
+    </style>
 
 </head>
 
 <body>
 
-<div class="navbar">
+    <div class="navbar">
 
-<h2>🎓 Campus Assistant</h2>
+        <h2>🎓 Campus Assistant</h2>
 
-<a href="/dashboard">← Dashboard</a>
+        <a href="/dashboard">← Dashboard</a>
 
-</div>
+    </div>
 
-<div class="hero">
+    <div class="hero">
 
-<h1>🚌 Student Transport Concession</h1>
+        <h1>🚌 Student Transport Concession</h1>
 
-<p>Secure digital access to your official BEST concession form</p>
+        <p>Secure digital access to your official BEST concession form</p>
 
-</div>
+    </div>
 
-<div class="container">
+    <div class="container">
 
-<div class="grid">
+        <div class="grid">
 
-<div class="card">
+            <div class="card">
 
-<h3>Form Preview</h3>
+                <h3>Form Preview</h3>
 
-<div class="preview-grid">
+                <div class="preview-grid">
 
-<div class="preview-item"><b>Name:</b> Student Name</div>
-<div class="preview-item"><b>Class:</b> FYJC</div>
-<div class="preview-item"><b>DOB:</b> --/--/----</div>
-<div class="preview-item"><b>Residence:</b> City</div>
-<div class="preview-item"><b>Destination:</b> College Area</div>
-<div class="preview-item"><b>College:</b> Your College</div>
+                    <div class="preview-item"><b>Name:</b> Student Name</div>
+                    <div class="preview-item"><b>Class:</b> FYJC</div>
+                    <div class="preview-item"><b>DOB:</b> --/--/----</div>
+                    <div class="preview-item"><b>Residence:</b> City</div>
+                    <div class="preview-item"><b>Destination:</b> College Area</div>
+                    <div class="preview-item"><b>College:</b> Your College</div>
 
-</div>
+                </div>
 
-<div class="success" id="successBox">
-✅ Payment successful. Download unlocked!
-</div>
+                <div class="success" id="successBox">
+                    ✅ Payment successful. Download unlocked!
+                </div>
 
-</div>
+            </div>
 
-<div class="card payment">
+            <div class="card payment">
 
-<h3>Processing Fee</h3>
+                <h3>Processing Fee</h3>
 
-<h1>₹5</h1>
+                <h1>₹5</h1>
 
-<p>Secure Razorpay Checkout</p>
+                <p>Secure Razorpay Checkout</p>
 
-<button class="pay-btn" id="payBtn" onclick="payNow()">
-Pay Now
-</button>
+                <button class="pay-btn" id="payBtn" onclick="payNow()">
+                    Pay Now
+                </button>
 
-<div class="loader" id="loader">
-Processing payment...
-</div>
+                <div class="loader" id="loader">
+                    Processing payment...
+                </div>
 
-<button class="download-btn" id="downloadBtn" onclick="downloadForm()">
-Download Form
-</button>
+                <button class="download-btn" id="downloadBtn" onclick="downloadForm()">
+                    Download Form
+                </button>
 
-</div>
+            </div>
 
-</div>
+        </div>
 
-<div class="card instructions">
+        <div class="card instructions">
 
-<h3>📌 Instructions</h3>
+            <h3>📌 Instructions</h3>
 
-<ul>
-<li>Fill the form in CAPITAL letters.</li>
-<li>Attach passport-size photograph.</li>
-<li>Get Principal signature and stamp.</li>
-<li>Submit the form at nearest BEST depot.</li>
-</ul>
+            <ul>
+                <li>Fill the form in CAPITAL letters.</li>
+                <li>Attach passport-size photograph.</li>
+                <li>Get Principal signature and stamp.</li>
+                <li>Submit the form at nearest BEST depot.</li>
+            </ul>
 
-</div>
+        </div>
 
-</div>
+    </div>
 
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
-<script>
-
-async function payNow(){
+   async function payNow(){
 
 const payBtn = document.getElementById("payBtn");
 const loader = document.getElementById("loader");
@@ -316,7 +319,7 @@ const loader = document.getElementById("loader");
 payBtn.disabled = true;
 loader.style.display = "block";
 
-const response = await fetch("/create-order",{method:"POST"});
+const response = await fetch("/api/payment/create-order",{method:"POST"});
 const order = await response.json();
 
 const options = {
@@ -335,7 +338,7 @@ order_id:order.id,
 
 handler: async function(response){
 
-const verify = await fetch("/verify-payment",{
+const verify = await fetch("/api/payment/verify-payment",{
 
 method:"POST",
 
@@ -359,7 +362,6 @@ document.getElementById("successBox").style.display="block";
 }else{
 
 alert("Payment verification failed");
-
 payBtn.disabled=false;
 
 }
@@ -373,13 +375,6 @@ rzp.open();
 
 }
 
-function downloadForm(){
-
-window.location.href="/download-form";
-
-}
-
-</script>
-
 </body>
+
 </html>
