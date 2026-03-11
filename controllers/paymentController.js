@@ -2,23 +2,32 @@ const razorpay = require("../utils/razorpay");
 const crypto = require("crypto");
 
 exports.createOrder = async (req, res) => {
-  const options = {
-    amount: 500, // ₹5
-    currency: "INR",
-    receipt: "receipt_order"
-  };
 
   try {
-    const order = await razorpay.orders.create(options);
+
+    const order = await razorpay.orders.create({
+      amount: 500,
+      currency: "INR"
+    });
+
     res.json(order);
+
   } catch (err) {
+
+    console.log(err);
     res.status(500).send("Error creating order");
+
   }
+
 };
 
 exports.verifyPayment = (req, res) => {
 
-  const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+  const {
+    razorpay_order_id,
+    razorpay_payment_id,
+    razorpay_signature
+  } = req.body;
 
   const body = razorpay_order_id + "|" + razorpay_payment_id;
 
@@ -28,8 +37,13 @@ exports.verifyPayment = (req, res) => {
     .digest("hex");
 
   if (expectedSignature === razorpay_signature) {
+
     res.json({ success: true });
+
   } else {
+
     res.json({ success: false });
+
   }
+
 };

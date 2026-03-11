@@ -13,6 +13,7 @@ const courseRoutes = require("./routes/courseRoutes");
 const resultRoutes = require("./routes/resultRoutes");
 const assignmentRoutes = require("./routes/assignmentRoutes");
 const noteRoutes = require("./routes/noteRoutes");
+const paymentRoutes = require("./routes/paymentRoutes");
 
 const app = express();
 
@@ -58,31 +59,13 @@ app.use("/", courseRoutes);
 app.use("/", resultRoutes);
 app.use("/", assignmentRoutes);
 app.use("/", noteRoutes);
-app.get("/busform",(req,res)=>{
+app.use("/", paymentRoutes);
+app.get("/download-form",(req,res)=>{
 
-res.render("busform",{
-razorpayKey:process.env.RAZORPAY_KEY_ID
-});
-
-});
-
-app.post("/create-order", async (req,res)=>{
-
-const Razorpay = require("razorpay");
-
-const razorpay = new Razorpay({
-key_id:process.env.RAZORPAY_KEY_ID,
-key_secret:process.env.RAZORPAY_KEY_SECRET
-});
-
-const order = await razorpay.orders.create({
-amount:500,
-currency:"INR"
-});
-
-res.json(order);
+res.download("public/Student_concession_form.pdf");
 
 });
+
 const marketRoutes = require("./routes/marketRoutes");
 
 app.use("/", marketRoutes);

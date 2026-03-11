@@ -1,5 +1,7 @@
 <!DOCTYPE html>
+
 <html>
+
 <head>
 
 <title>Transport Concession | Campus Assistant</title>
@@ -53,7 +55,7 @@ color:#22d3ee;
 
 .hero{
 text-align:center;
-padding:70px 20px 40px;
+padding:60px 20px 30px;
 }
 
 .hero h1{
@@ -70,7 +72,7 @@ color:#94a3b8;
 .container{
 max-width:1100px;
 margin:auto;
-padding:30px 20px;
+padding:20px;
 }
 
 /* GRID */
@@ -81,7 +83,7 @@ grid-template-columns:1.2fr 1fr;
 gap:30px;
 }
 
-/* GLASS CARD */
+/* CARD */
 
 .card{
 background:rgba(255,255,255,0.05);
@@ -93,10 +95,10 @@ transition:0.3s;
 }
 
 .card:hover{
-transform:translateY(-6px);
+transform:translateY(-5px);
 }
 
-/* PREVIEW GRID */
+/* PREVIEW */
 
 .preview-grid{
 margin-top:20px;
@@ -119,15 +121,10 @@ text-align:center;
 background:linear-gradient(135deg,#6366f1,#4f46e5);
 }
 
-.payment h1{
-font-size:42px;
-margin:12px 0;
-}
-
 /* BUTTON */
 
 .pay-btn{
-margin-top:15px;
+margin-top:18px;
 background:white;
 color:#4f46e5;
 padding:14px 28px;
@@ -140,7 +137,11 @@ transition:0.3s;
 
 .pay-btn:hover{
 transform:scale(1.05);
-box-shadow:0 10px 30px rgba(0,0,0,0.3);
+}
+
+.pay-btn:disabled{
+opacity:0.6;
+cursor:not-allowed;
 }
 
 /* DOWNLOAD */
@@ -170,12 +171,21 @@ background:#dcfce7;
 color:#166534;
 padding:12px;
 border-radius:10px;
-animation:fadeIn 0.4s ease;
+animation:fadeIn 0.5s ease;
 }
 
 @keyframes fadeIn{
 from{opacity:0;transform:translateY(10px);}
 to{opacity:1;transform:translateY(0);}
+}
+
+/* LOADER */
+
+.loader{
+display:none;
+margin-top:12px;
+font-size:14px;
+color:#e0e7ff;
 }
 
 /* INSTRUCTIONS */
@@ -190,7 +200,7 @@ line-height:1.8;
 color:#cbd5f5;
 }
 
-/* RESPONSIVE */
+/* MOBILE */
 
 @media(max-width:900px){
 
@@ -209,6 +219,7 @@ font-size:26px;
 }
 
 </style>
+
 </head>
 
 <body>
@@ -221,7 +232,6 @@ font-size:26px;
 
 </div>
 
-
 <div class="hero">
 
 <h1>🚌 Student Transport Concession</h1>
@@ -229,7 +239,6 @@ font-size:26px;
 <p>Secure digital access to your official BEST concession form</p>
 
 </div>
-
 
 <div class="container">
 
@@ -242,27 +251,19 @@ font-size:26px;
 <div class="preview-grid">
 
 <div class="preview-item"><b>Name:</b> Student Name</div>
-
 <div class="preview-item"><b>Class:</b> FYJC</div>
-
 <div class="preview-item"><b>DOB:</b> --/--/----</div>
-
 <div class="preview-item"><b>Residence:</b> City</div>
-
 <div class="preview-item"><b>Destination:</b> College Area</div>
-
 <div class="preview-item"><b>College:</b> Your College</div>
 
 </div>
 
 <div class="success" id="successBox">
-
 ✅ Payment successful. Download unlocked!
-
 </div>
 
 </div>
-
 
 <div class="card payment">
 
@@ -272,58 +273,50 @@ font-size:26px;
 
 <p>Secure Razorpay Checkout</p>
 
-<button class="pay-btn" onclick="payNow()">
-
+<button class="pay-btn" id="payBtn" onclick="payNow()">
 Pay Now
-
 </button>
 
-<a href="/Student_concession_form.pdf" download>
+<div class="loader" id="loader">
+Processing payment...
+</div>
 
-<button class="download-btn" id="downloadBtn">
-
+<button class="download-btn" id="downloadBtn" onclick="downloadForm()">
 Download Form
-
 </button>
 
-</a>
-
 </div>
 
 </div>
-
 
 <div class="card instructions">
 
 <h3>📌 Instructions</h3>
 
 <ul>
-
 <li>Fill the form in CAPITAL letters.</li>
-
 <li>Attach passport-size photograph.</li>
-
 <li>Get Principal signature and stamp.</li>
-
 <li>Submit the form at nearest BEST depot.</li>
-
 </ul>
 
 </div>
 
 </div>
+
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
 <script>
 
 async function payNow(){
 
-try{
+const payBtn = document.getElementById("payBtn");
+const loader = document.getElementById("loader");
 
-const response = await fetch("/create-order",{
-method:"POST"
-});
+payBtn.disabled = true;
+loader.style.display = "block";
 
+const response = await fetch("/create-order",{method:"POST"});
 const order = await response.json();
 
 const options = {
@@ -356,6 +349,8 @@ body:JSON.stringify(response)
 
 const result = await verify.json();
 
+loader.style.display="none";
+
 if(result.success){
 
 document.getElementById("downloadBtn").style.display="inline-block";
@@ -365,28 +360,26 @@ document.getElementById("successBox").style.display="block";
 
 alert("Payment verification failed");
 
+payBtn.disabled=false;
+
 }
 
-},
-
-theme:{
-color:"#6366f1"
 }
 
 };
 
 const rzp = new Razorpay(options);
-
 rzp.open();
 
-}catch(err){
-
-alert("Payment failed. Please try again.");
-
 }
+
+function downloadForm(){
+
+window.location.href="/download-form";
 
 }
 
 </script>
+
 </body>
 </html>
