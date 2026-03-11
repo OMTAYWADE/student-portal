@@ -59,21 +59,20 @@ app.use("/", courseRoutes);
 app.use("/", resultRoutes);
 app.use("/", assignmentRoutes);
 app.use("/", noteRoutes);
-app.use("/", paymentRoutes);
+
+/* PAYMENT ROUTES */
+app.use("/api/payment", paymentRoutes);
+
+/* PDF DOWNLOAD */
 app.get("/download-form",(req,res)=>{
 
-res.download("public/Student_concession_form.pdf");
+const filePath = path.join(__dirname,"public","Student_concession_form.pdf");
+
+res.download(filePath);
 
 });
 
-const marketRoutes = require("./routes/marketRoutes");
-
 app.use("/", marketRoutes);
-
-const paymentRoutes = require("./routes/paymentRoutes");
-app.use("/", paymentRoutes);
-app.post("/create-order", createOrder);
-app.post("/verify-payment", verifyPayment);
 
 app.get("/privacy", (req, res) => res.render("privacy"));
 app.get("/terms", (req, res) => res.render("terms"));
