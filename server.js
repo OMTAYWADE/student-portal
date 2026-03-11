@@ -59,9 +59,11 @@ app.use("/", resultRoutes);
 app.use("/", assignmentRoutes);
 app.use("/", noteRoutes);
 app.get("/busform",(req,res)=>{
+
 res.render("busform",{
 razorpayKey:process.env.RAZORPAY_KEY_ID
 });
+
 });
 
 app.post("/create-order", async (req,res)=>{
@@ -84,6 +86,11 @@ res.json(order);
 const marketRoutes = require("./routes/marketRoutes");
 
 app.use("/", marketRoutes);
+
+const paymentRoutes = require("./routes/paymentRoutes");
+app.use("/", paymentRoutes);
+app.post("/create-order", createOrder);
+app.post("/verify-payment", verifyPayment);
 
 app.get("/privacy", (req, res) => res.render("privacy"));
 app.get("/terms", (req, res) => res.render("terms"));

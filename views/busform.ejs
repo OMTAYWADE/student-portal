@@ -312,6 +312,8 @@ Download Form
 </div>
 
 </div>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
 <script>
 
 async function payNow(){
@@ -338,11 +340,32 @@ description:"Bus Concession Fee",
 
 order_id:order.id,
 
-handler:function(){
+handler: async function(response){
+
+const verify = await fetch("/verify-payment",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify(response)
+
+});
+
+const result = await verify.json();
+
+if(result.success){
 
 document.getElementById("downloadBtn").style.display="inline-block";
-
 document.getElementById("successBox").style.display="block";
+
+}else{
+
+alert("Payment verification failed");
+
+}
 
 },
 
