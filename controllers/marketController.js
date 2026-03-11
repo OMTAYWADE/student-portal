@@ -23,6 +23,31 @@ res.render("market/sell");
 
 /* Upload Item */
 
+const MarketItem = require("../models/marketItem");
+
+/* Marketplace Home */
+
+exports.marketHome = async (req,res)=>{
+
+const items = await MarketItem.find()
+.sort({createdAt:-1});
+
+res.render("market/home",{items});
+
+};
+
+
+/* Sell Page */
+
+exports.sellPage = (req,res)=>{
+
+res.render("market/sell");
+
+};
+
+
+/* Upload Item */
+
 exports.sellItem = async (req,res)=>{
 
 const images = req.files.map(f => f.path);
