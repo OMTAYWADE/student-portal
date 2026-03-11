@@ -61,6 +61,13 @@ app.use("/", resultRoutes);
 app.use("/", assignmentRoutes);
 app.use("/", noteRoutes);
 
+app.get("/busform", (req, res) => {
+
+res.render("busform", {
+razorpayKey: process.env.RAZORPAY_KEY_ID
+});
+
+});
 /* PAYMENT ROUTES */
 app.use("/api/payment", paymentRoutes);
 
